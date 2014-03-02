@@ -14,6 +14,7 @@ class ZineIncStorageExtension extends Extension
     private $configFiles = array(
         'storage-client.xml',
         'url.xml',
+        'twig.xml',
     );
 
     public function load(array $config, ContainerBuilder $container)

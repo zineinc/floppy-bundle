@@ -38,9 +38,11 @@ class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
 
         $client = $container->get('zineinc.storage.client');
         $urlGenerator = $container->get('zineinc.storage.url_generator');
+        $storageExtension = $container->get('zineinc.storage.twig.extension');
 
         $this->assertInstanceOf('ZineInc\Storage\Client\StorageClient', $client);
         $this->assertInstanceOf('ZineInc\Storage\Client\UrlGenerator', $urlGenerator);
+        $this->assertInstanceOf('ZineInc\StorageBundle\Twig\Extensions\StorageExtension', $storageExtension);
     }
 
     /**
