@@ -59,6 +59,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('file_key')
                     ->defaultValue('file')
                 ->end()
+                ->booleanNode('enable_doctrine_file_type')
+                    ->defaultTrue()
+                ->end()
             ->end();
 
         return $treeBuilder;
