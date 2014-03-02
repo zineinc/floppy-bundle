@@ -19,9 +19,7 @@
                 <argument key="image" type="service" id="zineinc.storage.path_generator.image" />
                 <argument key="file" type="service" id="zineinc.storage.path_generator.file" />
             </argument>
-            <argument>%zineinc.storage.endpoint.host%</argument>
-            <argument>%zineinc.storage.endpoint.path%</argument>
-            <argument>%zineinc.storage.endpoint.protocol%</argument>
+            <argument type="service" id="zineinc.storage.endpoint" />
             <argument type="service" id="zineinc.storage.host_resolver" />
         </service>
 

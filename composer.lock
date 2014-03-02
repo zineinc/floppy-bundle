@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3cd7d5f28d902a348038568878b97fce",
+    "hash": "b2a9f1bb13ec47ddef45bfb234c4c965",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2190,7 +2190,7 @@
         },
         {
             "name": "zineinc/storage-client",
-            "version": "0.0.4",
+            "version": "0.0.6",
             "source": {
                 "type": "git",
                 "url": "git@codebasehq.com:advisio/zineinc/storage-client.git",
@@ -2205,7 +2205,7 @@
         },
         {
             "name": "zineinc/storage-common",
-            "version": "0.0.4",
+            "version": "0.0.6",
             "source": {
                 "type": "git",
                 "url": "git@codebasehq.com:advisio/zineinc/storage-common.git",

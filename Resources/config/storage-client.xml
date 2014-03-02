@@ -16,11 +16,19 @@
             <argument type="service" id="zineinc.storage.uploader" />
         </service>
 
-        <service id="zineinc.storage.uploader" class="ZineInc\Storage\Client\BuzzFileSourceUploader" public="false">
-            <argument type="service" id="zineinc.storage.buzz" />
+        <service id="zineinc.storage.endpoint" class="ZineInc\Storage\Client\Url" public="false">
             <argument>%zineinc.storage.endpoint.host%</argument>
             <argument>%zineinc.storage.endpoint.path%</argument>
-            <argument>%zineinc.storage.file_key%</argument>
+            <argument>%zineinc.storage.endpoint.protocol%</argument>
+        </service>
+
+        <service id="zineinc.storage.uploader" class="ZineInc\Storage\Client\BuzzFileSourceUploader" public="false">
+            <argument type="service" id="zineinc.storage.buzz" />
+            <argument type="service">
+                <service factory-service="zineinc.storage.endpoint" factory-method="appendPath">
+                    <argument>/upload</argument>
+                </service>
+            </argument>
         </service>
 
         <service id="zineinc.storage.buzz" class="Buzz\Client\Curl" public="false" />
