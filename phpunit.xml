@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="Tests/bootstrap.php">
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">Tests</directory>
+        </whitelist>
+    </filter>
+    <testsuites>
+        <testsuite name="ZineIncStorageBundle">
+            <directory>Tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

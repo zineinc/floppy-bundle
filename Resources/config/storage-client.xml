@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zineinc.storage.endpoint.host"></parameter>
+        <parameter key="zineinc.storage.endpoint.protocol"></parameter>
+        <parameter key="zineinc.storage.endpoint.path"></parameter>
+        <parameter key="zineinc.storage.file_key"></parameter>
+    </parameters>
+
+    <services>
+        <service id="zineinc.storage.client" class="ZineInc\Storage\Client\StorageClient">
+            <argument type="service" id="zineinc.storage.uploader" />
+        </service>
+
+        <service id="zineinc.storage.uploader" class="ZineInc\Storage\Client\BuzzFileSourceUploader" public="false">
+            <argument type="service" id="zineinc.storage.buzz" />
+            <argument>%zineinc.storage.endpoint.host%</argument>
+            <argument>%zineinc.storage.endpoint.path%</argument>
+            <argument>%zineinc.storage.file_key%</argument>
+        </service>
+
+        <service id="zineinc.storage.buzz" class="Buzz\Client\Curl" public="false" />
+    </services>
+
+</container>

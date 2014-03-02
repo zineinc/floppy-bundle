@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zineinc.storage.secret_key"></parameter>
+        <parameter key="zineinc.storage.checksum_length">5</parameter>
+        <parameter key="zineinc.storage.filepath_chooser.dir_count">2</parameter>
+        <parameter key="zineinc.storage.filepath_chooser.chars_for_dir">3</parameter>
+        <parameter key="zineinc.storage.filepath_chooser.orig_file_dir">orig</parameter>
+        <parameter key="zineinc.storage.filepath_chooser.variant_file_dir">v</parameter>
+    </parameters>
+
+    <services>
+        <service id="zineinc.storage.url_generator" class="ZineInc\Storage\Client\UrlGeneratorImpl">
+            <argument type="collection">
+                <argument key="image" type="service" id="zineinc.storage.path_generator.image" />
+                <argument key="file" type="service" id="zineinc.storage.path_generator.file" />
+            </argument>
+            <argument>%zineinc.storage.endpoint.host%</argument>
+            <argument>%zineinc.storage.endpoint.path%</argument>
+            <argument>%zineinc.storage.endpoint.protocol%</argument>
+            <argument type="service" id="zineinc.storage.host_resolver" />
+        </service>
+
+        <service id="zineinc.storage.path_generator.image" class="ZineInc\Storage\Common\FileHandler\ImagePathGenerator" public="false">
+            <argument type="service" id="zineinc.storage.checksum_checker" />
+            <argument type="service" id="zineinc.storage.filepath_chooser" />
+        </service>
+
+        <service id="zineinc.storage.checksum_checker" class="ZineInc\Storage\Common\ChecksumCheckerImpl" public="false">
+            <argument>%zineinc.storage.secret_key%</argument>
+            <argument>%zineinc.storage.checksum_length%</argument>
+        </service>
+
+        <service id="zineinc.storage.filepath_chooser" class="ZineInc\Storage\Common\Storage\FilepathChoosingStrategyImpl" public="false">
+            <argument>%zineinc.storage.filepath_chooser.dir_count%</argument>
+            <argument>%zineinc.storage.filepath_chooser.chars_for_dir%</argument>
+            <argument>%zineinc.storage.filepath_chooser.orig_file_dir%</argument>
+            <argument>%zineinc.storage.filepath_chooser.variant_file_dir%</argument>
+        </service>
+
+        <service id="zineinc.storage.path_generator.file" class="ZineInc\Storage\Common\FileHandler\FilePathGenerator" public="false">
+            <argument type="service" id="zineinc.storage.checksum_checker" />
+            <argument type="service" id="zineinc.storage.filepath_chooser" />
+        </service>
+
+        <service id="zineinc.storage.host_resolver" class="ZineInc\Storage\Client\EmptyHostResolver" public="false" />
+    </services>
+
+</container>

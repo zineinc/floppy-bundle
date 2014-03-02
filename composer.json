@@ -1,0 +1,56 @@
+{
+    "name": "zineinc/storage-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "psliwa",
+            "email": "piotr.sliwa@zineinc.com"
+        }
+    ],
+    "require": {
+        "jbroadway/urlify": ">=1.0.0,<1.1.0",
+        "kriswallsmith/buzz": ">=v0.10",
+        "zineinc/storage-common": "*",
+        "zineinc/storage-client": "*",
+        "symfony/form": "~2.1",
+        "symfony/framework-bundle": "~2.1",
+        "doctrine/doctrine-bundle": "*",
+        "doctrine/orm": "~2.0"
+    },
+    "autoload": {
+    	"psr-0": { "ZineInc\\StorageBundle\\": "" }
+    },
+    "target-dir": "ZineInc/StorageBundle",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "zineinc/storage-common",
+                "version": "0.0.4",
+                "source": {
+                    "url": "git@codebasehq.com:advisio/zineinc/storage-common.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "psr-0": { "ZineInc\\Storage\\": "src/" }
+                }
+            }
+        } ,
+        {
+            "type": "package",
+            "package": {
+                "name": "zineinc/storage-client",
+                "version": "0.0.4",
+                "source": {
+                    "url": "git@codebasehq.com:advisio/zineinc/storage-client.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "psr-0": { "ZineInc\\Storage\\": "src/" }
+                }
+            }
+        }
+    ]
+}
