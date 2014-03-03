@@ -1,6 +1,20 @@
-{% block storage_file_widget %}
-    {% set id = id|replace("_", "-") %}
+{% block form_javascript %}
+    {% spaceless %}
+        {% for child in form %}
+            {{ storage_form_javascript(child) }}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock form_javascript %}
 
+{% block field_javascript "" %}
+{% block button_javascript "" %}
+
+{% block storage_file_row %}
+    {{ form_row(form) }}
+    {{ storage_form_javascript(form) }}
+{% endblock %}
+
+{% block storage_file_widget %}
     <div id="storage-file-box{{ id }}">
         <div class="error-message"></div>
         {% if data and data.id %}
@@ -21,76 +35,80 @@
             </li>
         </ul>
     </div>
+{% endblock %}
 
+{% block storage_file_javascript %}
     <script type="text/javascript" src="{{ js }}"></script>
     <script type="text/javascript">
-        var progress = $("#storage-file-progress-{{id}} .bar");
-        var idInput = $("#{{ id }}-id");
-        var attributesInput = $("#{{ id }}-attributes");
-        var preview = $("#storage-preview-{{ id }}");
-        var box = $("#storage-file-box{{ id }}");
-        var errorBox = box.find(".error-message");
+        $(function(){
+            var progress = $("#storage-file-progress-{{id}} .bar");
+            var idInput = $("#{{ id }}-id");
+            var attributesInput = $("#{{ id }}-attributes");
+            var preview = $("#storage-preview-{{ id }}");
+            var box = $("#storage-file-box{{ id }}");
+            var errorBox = box.find(".error-message");
 
-        var errorMessages = {
-            "unsupported-file-type": "{{ "storage.file.error.unsupported_file_type" }}",
-            "file-not-found": "{{ "storage.file.error.file_not_found" }}",
-            "store-error": "{{ "storage.file.error.store_error" }}",
-            "io": "{{ "storage.file.error.io" }}",
-            "file-process-error": "{{ "storage.file.error.file_process_error" }}",
-            "invalid-checksum": "{{ "storage.file.error.invalid_checksum" }}",
-            "access-denied": "{{ "storage.file.error.access_denied" }}"
-        };
+            var errorMessages = {
+                "unsupported-file-type": "{{ "storage.file.error.unsupported_file_type" }}",
+                "file-not-found": "{{ "storage.file.error.file_not_found" }}",
+                "store-error": "{{ "storage.file.error.store_error" }}",
+                "io": "{{ "storage.file.error.io" }}",
+                "file-process-error": "{{ "storage.file.error.file_process_error" }}",
+                "invalid-checksum": "{{ "storage.file.error.invalid_checksum" }}",
+                "access-denied": "{{ "storage.file.error.access_denied" }}"
+            };
 
-        var uploader = new plupload.Uploader({
-            runtimes: 'html5,flash,silverlight,html4',
-            flash_swf_url : '{{ swf }}',
-            silverlight_xap_url : '{{ xap }}',
-            browse_button: 'storage-file-button-{{ id }}',
-            container: 'storage-file-box{{ id }}',
-            multi_selection: false,
-            url: '{{ url }}',
-            file_data_name: '{{ file_key }}',
-            {# TODO: filters #}
-            init: {
-                FilesAdded: function(up, files) {
-                    preview.html("");
-                    errorBox.text("");
-                    up.start();
-                },
+            var uploader = new plupload.Uploader({
+                runtimes: 'html5,flash,silverlight,html4',
+                flash_swf_url : '{{ swf }}',
+                silverlight_xap_url : '{{ xap }}',
+                browse_button: 'storage-file-button-{{ id }}',
+                container: 'storage-file-box{{ id }}',
+                multi_selection: false,
+                url: '{{ url }}',
+                file_data_name: '{{ file_key }}',
+                {# TODO: filters #}
+                init: {
+                    FilesAdded: function(up, files) {
+                        preview.html("");
+                        errorBox.text("");
+                        up.start();
+                    },
 
-                UploadProgress: function(up, file) {
-                    var done = (file.percent === 100) ? function(){$(this).addClass('full')} : function(){};
+                    UploadProgress: function(up, file) {
+                        var done = (file.percent === 100) ? function(){$(this).addClass('full')} : function(){};
 
-                    progress.animate({
-                        width: file.percent+'%'
-                    }, {
-                        duration: 'long',
-                        done: done
-                    });
-                },
+                        progress.animate({
+                            width: file.percent+'%'
+                        }, {
+                            duration: 'long',
+                            done: done
+                        });
+                    },
 
-                Error: function(up, response) {
-                    progress.css({width: '0%'}).removeClass('full');
-                    var parsedResponse = JSON.parse(response.response);
-                    var error = errorMessages[parsedResponse.message] ? errorMessages[parsedResponse.message] : parsedResponse.message;
-                    errorBox.text(error);
-                },
+                    Error: function(up, response) {
+                        progress.css({width: '0%'}).removeClass('full');
+                        var parsedResponse = JSON.parse(response.response);
+                        var error = errorMessages[parsedResponse.message] ? errorMessages[parsedResponse.message] : parsedResponse.message;
+                        errorBox.text(error);
+                    },
 
-                FileUploaded: function(up, file, response) {
-                    progress.css({width: '0%'}).removeClass('full');
+                    FileUploaded: function(up, file, response) {
+                        progress.css({width: '0%'}).removeClass('full');
 
-                    var parsedResponse = JSON.parse(response.response);
+                        var parsedResponse = JSON.parse(response.response);
 
-                    idInput.val(parsedResponse.attributes.id);
-                    attributesInput.val(JSON.stringify(parsedResponse.attributes));
+                        idInput.val(parsedResponse.attributes.id);
+                        attributesInput.val(JSON.stringify(parsedResponse.attributes));
 
-                    $.get("{{ url("storageFilePreview") }}", { fileId: parsedResponse.attributes.id }, function(response){
-                        preview.html(response);
-                    });
+                        $.get("{{ url("storageFilePreview") }}", { fileId: parsedResponse.attributes.id }, function(response){
+                            preview.html(response);
+                        });
+                    }
                 }
-            }
-        });
+            });
 
-        uploader.init();
+            uploader.init();
+        });
     </script>
 {% endblock %}
