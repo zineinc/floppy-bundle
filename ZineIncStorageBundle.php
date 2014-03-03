@@ -12,13 +12,15 @@ class ZineIncStorageBundle extends Bundle
         parent::boot();
 
         if($this->container->getParameter('zineinc.storage.enable_doctrine_file_type')) {
-            if(Type::hasType('file')) {
-                Type::addType('file', 'ZineInc\StorageBundle\Doctrine\DBAL\Types\FileType');
+            $name = $this->container->getParameter('zineinc.storage.doctrine_file_type_name');
+
+            if(!Type::hasType($name)) {
+                Type::addType($name, 'ZineInc\StorageBundle\Doctrine\DBAL\Types\FileType');
             }
 
             if($this->container->has('doctrine.dbal.default_connection')) {
                 $platform = $this->container->get('doctrine.dbal.default_connection')->getDatabasePlatform();
-                $platform->markDoctrineTypeCommented(Type::getType('file'));
+                $platform->markDoctrineTypeCommented(Type::getType($name));
             }
         }
     }

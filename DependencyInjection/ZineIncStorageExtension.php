@@ -15,6 +15,7 @@ class ZineIncStorageExtension extends Extension
         'storage-client.xml',
         'url.xml',
         'twig.xml',
+        'form.xml',
     );
 
     public function load(array $config, ContainerBuilder $container)
@@ -46,6 +47,6 @@ class ZineIncStorageExtension extends Extension
 
     public function getAlias()
     {
-        return 'zineinc_storage';
+        return 'zine_inc_storage';
     }
 }

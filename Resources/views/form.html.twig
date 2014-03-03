@@ -1,0 +1,96 @@
+{% block storage_file_widget %}
+    {% set id = id|replace("_", "-") %}
+
+    <div id="storage-file-box{{ id }}">
+        <div class="error-message"></div>
+        {% if data and data.id %}
+            <div id="storage-preview-{{ id }}">
+                {{ storage_file_preview(data) }}
+            </div>
+            <input id="{{ id }}-id" type="hidden" value="{{ data.id }}" name="{{ full_name }}[id]" />
+        {% else %}
+            <div id="storage-preview-{{ id }}"></div>
+            <input type="hidden" id="{{ id }}-id" value="" name="{{ full_name }}[id]" />
+        {% endif %}
+        <input type="hidden" id="{{ id }}-attributes" value="{{ data.attributes.all|json_encode }}" name="{{ full_name }}[attributes]" />
+
+        <span id="storage-file-button-{{ id }}">{{ "upload"|trans }}</span>
+        <ul class="storage-file-progress-holder">
+            <li id="storage-file-progress-{{id}}">
+                <div class="bar"></div>
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript" src="{{ js }}"></script>
+    <script type="text/javascript">
+        var progress = $("#storage-file-progress-{{id}} .bar");
+        var idInput = $("#{{ id }}-id");
+        var attributesInput = $("#{{ id }}-attributes");
+        var preview = $("#storage-preview-{{ id }}");
+        var box = $("#storage-file-box{{ id }}");
+        var errorBox = box.find(".error-message");
+
+        var errorMessages = {
+            "unsupported-file-type": "{{ "storage.file.error.unsupported_file_type" }}",
+            "file-not-found": "{{ "storage.file.error.file_not_found" }}",
+            "store-error": "{{ "storage.file.error.store_error" }}",
+            "io": "{{ "storage.file.error.io" }}",
+            "file-process-error": "{{ "storage.file.error.file_process_error" }}",
+            "invalid-checksum": "{{ "storage.file.error.invalid_checksum" }}",
+            "access-denied": "{{ "storage.file.error.access_denied" }}"
+        };
+
+        var uploader = new plupload.Uploader({
+            runtimes: 'html5,flash,silverlight,html4',
+            flash_swf_url : '{{ swf }}',
+            silverlight_xap_url : '{{ xap }}',
+            browse_button: 'storage-file-button-{{ id }}',
+            container: 'storage-file-box{{ id }}',
+            multi_selection: false,
+            url: '{{ url }}',
+            file_data_name: '{{ file_key }}',
+            {# TODO: filters #}
+            init: {
+                FilesAdded: function(up, files) {
+                    preview.html("");
+                    errorBox.text("");
+                    up.start();
+                },
+
+                UploadProgress: function(up, file) {
+                    var done = (file.percent === 100) ? function(){$(this).addClass('full')} : function(){};
+
+                    progress.animate({
+                        width: file.percent+'%'
+                    }, {
+                        duration: 'long',
+                        done: done
+                    });
+                },
+
+                Error: function(up, response) {
+                    progress.css({width: '0%'}).removeClass('full');
+                    var parsedResponse = JSON.parse(response.response);
+                    var error = errorMessages[parsedResponse.message] ? errorMessages[parsedResponse.message] : parsedResponse.message;
+                    errorBox.text(error);
+                },
+
+                FileUploaded: function(up, file, response) {
+                    progress.css({width: '0%'}).removeClass('full');
+
+                    var parsedResponse = JSON.parse(response.response);
+
+                    idInput.val(parsedResponse.attributes.id);
+                    attributesInput.val(JSON.stringify(parsedResponse.attributes));
+
+                    $.get("{{ url("storageFilePreview") }}", { fileId: parsedResponse.attributes.id }, function(response){
+                        preview.html(response);
+                    });
+                }
+            }
+        });
+
+        uploader.init();
+    </script>
+{% endblock %}

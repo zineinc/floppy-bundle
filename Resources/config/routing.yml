@@ -1,0 +1,3 @@
+ZineIncStorageBundle:
+    resource: "@ZineIncStorageBundle/Controller/StorageController.php"
+    type:     annotation

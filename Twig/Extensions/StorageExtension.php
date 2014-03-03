@@ -19,12 +19,18 @@ class StorageExtension extends \Twig_Extension
     {
         return array(
             'storage_url' => new \Twig_Function_Method($this, 'getUrl'),
+            'storage_file_preview' => new \Twig_Function_Method($this, 'renderPreview', array('needs_environment' => true, 'is_safe' => array('html'))),
         );
     }
 
     public function getUrl(FileId $fileId, $type)
     {
         return $this->urlGenerator->generate($fileId, $type);
+    }
+
+    public function renderPreview(\Twig_Environment $env, FileId $fileId)
+    {
+        return $env->render('ZineIncStorageBundle::preview.html.twig', array('fileId' => $fileId));
     }
 
     public function getName()
