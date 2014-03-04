@@ -1,17 +1,6 @@
-{% block form_javascript %}
-    {% spaceless %}
-        {% for child in form %}
-            {{ storage_form_javascript(child) }}
-        {% endfor %}
-    {% endspaceless %}
-{% endblock form_javascript %}
-
-{% block field_javascript "" %}
-{% block button_javascript "" %}
-
 {% block storage_file_row %}
     {{ form_row(form) }}
-    {{ storage_form_javascript(form) }}
+    {{ block("storage_file_javascript", form.vars ) }}
 {% endblock %}
 
 {% block storage_file_widget %}

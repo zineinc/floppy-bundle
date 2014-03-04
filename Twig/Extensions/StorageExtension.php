@@ -20,7 +20,6 @@ class StorageExtension extends \Twig_Extension
         return array(
             'storage_url' => new \Twig_Function_Method($this, 'getUrl'),
             'storage_file_preview' => new \Twig_Function_Method($this, 'renderPreview', array('needs_environment' => true, 'is_safe' => array('html'))),
-            'storage_form_javascript' => new \Twig_Function_Node('Symfony\Bridge\Twig\Node\SearchAndRenderBlockNode', array('is_safe' => array('html'))),
         );
     }
 
