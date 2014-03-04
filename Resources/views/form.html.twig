@@ -15,7 +15,7 @@
             <div id="storage-preview-{{ id }}"></div>
             <input type="hidden" id="{{ id }}-id" value="" name="{{ full_name }}[id]" />
         {% endif %}
-        <input type="hidden" id="{{ id }}-attributes" value="{{ data.attributes.all|json_encode }}" name="{{ full_name }}[attributes]" />
+        <input type="hidden" id="{{ id }}-attributes" value="{% if data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
 
         <span id="storage-file-button-{{ id }}">{{ "upload"|trans }}</span>
         <ul class="storage-file-progress-holder">

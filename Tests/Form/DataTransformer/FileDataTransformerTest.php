@@ -71,6 +71,10 @@ class FileDataTransformerTest extends \PHPUnit_Framework_TestCase
         return array(
             array('id', new FileId('id')),
             array(array('id' => 'someid', 'attributes' => json_encode($attrs)), new FileId('someid', $attrs)),
+            array(array('id' => null, 'attributes' => null), null),
+            array(array('id' => null, 'attributes' => json_encode(array())), null),
+            array(array('id' => null, 'attributes' => array()), null, true),
+            array(array('id' => array(), 'attributes' => null), null, true),
             array(null, null),
             array(array('invalid array'), null, true),
             array(array('id' => 'someid', 'attributes' => 'invalid json'), null, true),

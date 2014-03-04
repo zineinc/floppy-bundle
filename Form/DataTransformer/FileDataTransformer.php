@@ -46,6 +46,10 @@ class FileDataTransformer implements DataTransformerInterface
                 throw new TransformationFailedException('Cannot transform value, invalid attributes value, expected valid json format, but "'.$serializedAttrs.'" given');
             }
 
+            if(!$id && !$attrs) {
+                return null;
+            }
+
             return new FileId($id, $attrs);
         } elseif(is_string($value)) {
             return new FileId($value);
