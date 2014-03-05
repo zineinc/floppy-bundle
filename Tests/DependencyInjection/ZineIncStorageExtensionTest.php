@@ -50,6 +50,12 @@ class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($imagePreviewRenderer->supports(new FileId('some.jpg')));
         $this->assertFalse($imagePreviewRenderer->supports(new FileId('some.txt')));
+
+        //all services can be created?
+        foreach($container->getServiceIds() as $id) {
+            $service = $container->get($id);
+            $this->assertNotNull($service);
+        }
     }
 
     /**
