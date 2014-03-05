@@ -12,10 +12,11 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 class ZineIncStorageExtension extends Extension
 {
     private $configFiles = array(
-        'storage-client.xml',
+        'client.xml',
         'url.xml',
         'twig.xml',
         'form.xml',
+        'view.xml',
     );
 
     public function load(array $config, ContainerBuilder $container)
@@ -37,12 +38,27 @@ class ZineIncStorageExtension extends Extension
     private function setContainerParameters(ContainerBuilder $container, array $config, $rootPath)
     {
         foreach($config as $name => $value) {
-            if(is_array($value)) {
+            if(is_array($value) && $this->isAssociativeArray($value)) {
                 $this->setContainerParameters($container, $value, $rootPath.'.'.$name);
             } else {
                 $container->setParameter($rootPath.'.'.$name, $value);
             }
         }
+    }
+
+    private function isAssociativeArray(array $array)
+    {
+        if(count($array) === 0) {
+            return false;
+        }
+
+        foreach($array as $key => $value) {
+            if(!is_int($key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getAlias()

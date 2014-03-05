@@ -7,6 +7,7 @@
     <services>
         <service id="zineinc.storage.twig.extension" class="ZineInc\StorageBundle\Twig\Extensions\StorageExtension">
             <argument type="service" id="zineinc.storage.url_generator" />
+            <argument type="service" id="zineinc.storage.view.preview" />
             <tag name="twig.extension" />
         </service>
     </services>

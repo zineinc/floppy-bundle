@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zineinc.storage.form.preview.image.width"></parameter>
+        <parameter key="zineinc.storage.form.preview.image.height"></parameter>
+        <parameter key="zineinc.storage.form.preview.image.supported_extensions"></parameter>
+        <parameter key="zineinc.storage.form.preview.file.name"></parameter>
+    </parameters>
+
+    <services>
+        <service id="zineinc.storage.view.preview" class="ZineInc\StorageBundle\View\ChainedPreviewRenderer">
+            <argument type="collection">
+                <argument type="service" id="zineinc.storage.view.preview.image" />
+                <argument type="service" id="zineinc.storage.view.preview.file" />
+            </argument>
+        </service>
+
+        <service id="zineinc.storage.view.preview.image" class="ZineInc\StorageBundle\View\LazyLoadedPreviewRenderer" public="false">
+            <argument type="service" id="service_container" />
+            <argument>ZineIncStorageBundle::image-preview.html.twig</argument>
+            <argument type="service" id="zineinc.storage.view.preview.image_attrs_provider" />
+            <argument>%zineinc.storage.form.preview.image.supported_extensions%</argument>
+        </service>
+
+        <service id="zineinc.storage.view.preview.image_attrs_provider" class="ZineInc\StorageBundle\View\ImageAttributesProvider" public="false">
+            <argument>%zineinc.storage.form.preview.image.width%</argument>
+            <argument>%zineinc.storage.form.preview.image.height%</argument>
+        </service>
+
+        <service id="zineinc.storage.view.preview.file" class="ZineInc\StorageBundle\View\LazyLoadedPreviewRenderer" public="false">
+            <argument type="service" id="service_container" />
+            <argument>ZineIncStorageBundle::file-preview.html.twig</argument>
+            <argument type="service" id="zineinc.storage.view.preview.file_attrs_provider" />
+        </service>
+
+        <service id="zineinc.storage.view.preview.file_attrs_provider" class="ZineInc\StorageBundle\View\FileAttributesProvider" public="false">
+            <argument>%zineinc.storage.form.preview.file.name%</argument>
+        </service>
+    </services>
+
+</container>

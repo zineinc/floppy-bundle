@@ -5,6 +5,7 @@ namespace DependencyInjection;
 
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use ZineInc\Storage\Common\FileId;
 use ZineInc\StorageBundle\DependencyInjection\ZineIncStorageExtension;
 
 class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
@@ -24,6 +25,7 @@ class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
         //given
 
         $container = new ContainerBuilder();
+        $container->set('templating', $this->getMock('Symfony\Component\Templating\EngineInterface'));
 
         //when
 
@@ -39,10 +41,15 @@ class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
         $client = $container->get('zineinc.storage.client');
         $urlGenerator = $container->get('zineinc.storage.url_generator');
         $storageExtension = $container->get('zineinc.storage.twig.extension');
+        $imagePreviewRenderer = $container->get('zineinc.storage.view.preview.image');
 
         $this->assertInstanceOf('ZineInc\Storage\Client\StorageClient', $client);
         $this->assertInstanceOf('ZineInc\Storage\Client\UrlGenerator', $urlGenerator);
         $this->assertInstanceOf('ZineInc\StorageBundle\Twig\Extensions\StorageExtension', $storageExtension);
+        $this->assertInstanceOf('ZineInc\StorageBundle\View\PreviewRenderer', $imagePreviewRenderer);
+
+        $this->assertTrue($imagePreviewRenderer->supports(new FileId('some.jpg')));
+        $this->assertFalse($imagePreviewRenderer->supports(new FileId('some.txt')));
     }
 
     /**
