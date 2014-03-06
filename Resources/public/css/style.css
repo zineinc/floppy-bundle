@@ -1,1 +1,2 @@
-/** TODO: some generic css */
+.storage-file-progress-holder { width: 100px; border: 1px solid black; height: 20px; padding: 3px; }
+.storage-file-progress-holder .bar { background-color: blue; height: 100%; width: 0px; }

@@ -18,11 +18,13 @@
         <input type="hidden" id="{{ id }}-attributes" value="{% if data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
 
         <span id="storage-file-button-{{ id }}">{{ "upload"|trans }}</span>
-        <ul class="storage-file-progress-holder">
-            <li id="storage-file-progress-{{id}}">
-                <div class="bar"></div>
-            </li>
-        </ul>
+        <div id="storage-uploading-file-{{id}}">
+            <span class="js-name"></span>
+            <div class="storage-file-progress-holder">
+                <div class="js-bar bar"></div>
+            </div>
+            <span class="js-stop">{{ "stop"|trans }}</span>
+        </div>
     </div>
 {% endblock %}
 
@@ -37,7 +39,7 @@
                 throw "StorageFileFormType javascript is missing. You should include this script into your layout.";
             }
 
-            var progress = $("#storage-file-progress-{{id}} .bar");
+            var uploadingFileBox = $("#storage-uploading-file-{{id}}");
             var idInput = $("#{{ id }}-id");
             var attributesInput = $("#{{ id }}-attributes");
             var preview = $("#storage-preview-{{ id }}");
@@ -54,12 +56,37 @@
                 "access-denied": "{{ "storage.file.error.access_denied" }}"
             };
 
-            var uploader;
-            var eventBus = new StorageFileFormType.EventBus();
-            var view = new StorageFileFormType.View(eventBus, box, preview, errorBox, attributesInput, idInput, progress);
-            var controller = new StorageFileFormType.Controller(eventBus, function(){ uploader.start(); }, view, errorMessages, "{{ url("storageFilePreview") }}");
+            var pluploader;
+            var uploader = {
+                start: function(){
+                    pluploader.start();
+                },
+                stop: function(file){
+                    pluploader.removeFile(pluploader.getFile(file.id()));
+                }
+            };
 
-            uploader = new plupload.Uploader({
+            var eventBus = new StorageFileFormType.EventBus();
+
+            var view = new StorageFileFormType.View({
+                eventBus: eventBus,
+                box: box,
+                previewBox: preview,
+                errorBox: errorBox,
+                attributesInput: attributesInput,
+                idInput: idInput,
+                uploadingFileBox: uploadingFileBox
+            });
+
+            var controller = new StorageFileFormType.Controller({
+                eventBus: eventBus,
+                uploader: uploader,
+                view: view,
+                errorMessages: errorMessages,
+                previewUrl: "{{ url("storageFilePreview") }}"
+            });
+
+            pluploader = new plupload.Uploader({
                 runtimes: 'html5,flash,silverlight,html4',
                 flash_swf_url : '{{ swf }}',
                 silverlight_xap_url : '{{ xap }}',
@@ -71,7 +98,7 @@
                 {# TODO: filters #}
                 init: {
                     FilesAdded: function(up, files) {
-                        controller.onFileAdded();
+                        controller.onFileAdded(new StorageFileFormType.File(files[0].id, files[0].name));
                     },
 
                     UploadProgress: function(up, file) {
@@ -88,7 +115,7 @@
                 }
             });
 
-            uploader.init();
+            pluploader.init();
         });
     </script>
 {% endblock %}
