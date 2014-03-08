@@ -6,26 +6,31 @@ namespace ZineInc\StorageBundle\Form\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use ZineInc\Storage\Client\Url;
+use ZineInc\Storage\Common\ChecksumChecker;
 use ZineInc\StorageBundle\Form\DataTransformer\FileDataTransformer;
 
 class FileType extends AbstractType
 {
     private $formConfig;
     private $endpointUrl;
+    private $checksumChecker;
 
-    public function __construct(array $formConfig, Url $endpointUrl)
+    public function __construct(array $formConfig, Url $endpointUrl, ChecksumChecker $checksumChecker)
     {
         $this->formConfig = $formConfig;
         $this->endpointUrl = $endpointUrl;
+        $this->checksumChecker = $checksumChecker;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addViewTransformer(new FileDataTransformer())
+        $builder->addViewTransformer(new FileDataTransformer($this->checksumChecker))
             ->setAttribute('js', $options['js'])
             ->setAttribute('swf', $options['swf'])
             ->setAttribute('xap', $options['xap'])

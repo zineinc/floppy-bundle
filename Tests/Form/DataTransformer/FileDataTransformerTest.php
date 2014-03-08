@@ -10,10 +10,12 @@ use ZineInc\StorageBundle\Form\DataTransformer\FileDataTransformer;
 class FileDataTransformerTest extends \PHPUnit_Framework_TestCase
 {
     private $transformer;
+    private $checksumChecker;
 
     protected function setUp()
     {
-        $this->transformer = new FileDataTransformer();
+        $this->checksumChecker = $this->getMock('ZineInc\Storage\Common\ChecksumChecker');
+        $this->transformer = new FileDataTransformer($this->checksumChecker);
     }
 
     /**
@@ -50,10 +52,27 @@ class FileDataTransformerTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider reverseTransformProvider
      */
-    public function testReverseTransform($value, $expectedValue, $expectedException = false)
+    public function testReverseTransform($value, $expectedValue, $checksumSuccess = true, $expectedException = false)
     {
         if($expectedException) {
             $this->setExpectedException('Symfony\Component\Form\Exception\TransformationFailedException');
+        }
+
+        if(isset($value['attributes']))
+        {
+            $attrs = @json_decode($value['attributes'], true);
+            $checksum = isset($attrs['checksum']) ? $attrs['checksum'] : '';
+            unset($attrs['checksum']);
+            $this->checksumChecker->expects($this->any())
+                ->method('isChecksumValid')
+                ->with($checksum, $attrs)
+                ->will($this->returnValue($checksumSuccess));
+        }
+        else
+        {
+            $this->checksumChecker->expects($this->any())
+                ->method('isChecksumValid')
+                ->will($this->returnValue(true));
         }
 
         //when
@@ -67,17 +86,23 @@ class FileDataTransformerTest extends \PHPUnit_Framework_TestCase
 
     public function reverseTransformProvider()
     {
-        $attrs = array('name' => 'value');
+        $attrs = array('name' => 'value', 'id' => 'someid', 'checksum' => 'abc');
         return array(
             array('id', new FileId('id')),
             array(array('id' => 'someid', 'attributes' => json_encode($attrs)), new FileId('someid', $attrs)),
+            //checksum is required
+            array(array('id' => 'someid', 'attributes' => json_encode(array('checksum' => null) + $attrs)), null, true, true),
+            //attributes.id === id
+            array(array('id' => 'someid', 'attributes' => json_encode(array('id' => 'another-id', 'checksum' => 'abc'))), null, true, true),
             array(array('id' => null, 'attributes' => null), null),
             array(array('id' => null, 'attributes' => json_encode(array())), null),
-            array(array('id' => null, 'attributes' => array()), null, true),
-            array(array('id' => array(), 'attributes' => null), null, true),
+            array(array('id' => null, 'attributes' => array()), null, true, true),
+            array(array('id' => array(), 'attributes' => null), null, true, true),
             array(null, null),
-            array(array('invalid array'), null, true),
-            array(array('id' => 'someid', 'attributes' => 'invalid json'), null, true),
+            array(array('invalid array'), null, true, true),
+            array(array('id' => 'someid', 'attributes' => 'invalid json'), null, true, true),
+
+            array(array('id' => 'someid', 'attributes' => json_encode($attrs)), null, false, true),
         );
     }
 }

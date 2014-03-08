@@ -5,10 +5,19 @@ namespace ZineInc\StorageBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use ZineInc\Storage\Common\ChecksumChecker;
 use ZineInc\Storage\Common\FileId;
 
 class FileDataTransformer implements DataTransformerInterface
 {
+    private $checksumChecker;
+
+    public function __construct(ChecksumChecker $checksumChecker)
+    {
+
+        $this->checksumChecker = $checksumChecker;
+    }
+
     public function transform($value)
     {
         if($value instanceof FileId) {
@@ -40,6 +49,7 @@ class FileDataTransformer implements DataTransformerInterface
         if(is_array($value) && array_key_exists('id', $value) && ($value['id'] === null || is_string($value['id']))) {
             $id = $value['id'];
             $serializedAttrs = isset($value['attributes']) ? (string) $value['attributes'] : null;
+
             $attrs = $serializedAttrs ? @json_decode($serializedAttrs, true) : array();
 
             if($attrs === null) {
@@ -48,6 +58,21 @@ class FileDataTransformer implements DataTransformerInterface
 
             if(!$id && !$attrs) {
                 return null;
+            }
+
+            if($attrs) {
+                if(!isset($attrs['checksum'])) {
+                    throw new TransformationFailedException('Checksum is missing');
+                }
+                $attrsWithoutChecksum = $attrs;
+                unset($attrsWithoutChecksum['checksum']);
+                if(!$this->checksumChecker->isChecksumValid($attrs['checksum'], $attrsWithoutChecksum)) {
+                    throw new TransformationFailedException(sprintf('Invalid checksum %s for attributes', $attrs['checksum']));
+                }
+            }
+
+            if(isset($attrs['id']) && $attrs['id'] !== $id) {
+                throw new TransformationFailedException(sprintf('Value for id key "%s" of attributes should be the same as id "%s"', $attrs['id'], $id));
             }
 
             return new FileId($id, $attrs);

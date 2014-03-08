@@ -13,6 +13,7 @@
                 <argument key="file_key">%zineinc.storage.file_key%</argument>
             </argument>
             <argument type="service" id="zineinc.storage.uploader.url" />
+            <argument type="service" id="zineinc.storage.checksum_checker" />
 
             <tag name="form.type" alias="storage_file" />
         </service>
