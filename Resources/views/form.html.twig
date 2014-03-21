@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block storage_file_widget %}
-    <div id="storage-file-box{{ id }}">
+    <div id="storage-file-box{{ id }}" class="storage-file-box">
         <div class="error-message"></div>
         {% if data and data.id %}
             <div id="storage-preview-{{ id }}">
@@ -17,13 +17,13 @@
         {% endif %}
         <input type="hidden" id="{{ id }}-attributes" value="{% if data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
 
-        <span id="storage-file-button-{{ id }}">{{ "upload"|trans }}</span>
-        <div id="storage-uploading-file-{{id}}">
-            <span class="js-name"></span>
+        <button id="storage-file-button-{{ id }}" class="primary">{{ "upload"|trans }}</button>
+        <div id="storage-uploading-file-{{id}}" class="storage-uploading">
+            <div class="js-name"></div>
             <div class="storage-file-progress-holder">
                 <div class="js-bar bar"></div>
             </div>
-            <span class="js-stop">{{ "stop"|trans }}</span>
+            <span class="js-stop stop">{{ "x"|trans }}</span>
         </div>
     </div>
 {% endblock %}
