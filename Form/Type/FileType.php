@@ -31,7 +31,6 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addViewTransformer(new FileDataTransformer($this->checksumChecker))
-            ->setAttribute('js', $options['js'])
             ->setAttribute('swf', $options['swf'])
             ->setAttribute('xap', $options['xap'])
             ->setAttribute('file_key', $options['file_key'])
@@ -40,7 +39,6 @@ class FileType extends AbstractType
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['js'] = $form->getConfig()->getAttribute('js');
         $view->vars['swf'] = $form->getConfig()->getAttribute('swf');
         $view->vars['xap'] = $form->getConfig()->getAttribute('xap');
         $view->vars['file_key'] = $form->getConfig()->getAttribute('file_key');
@@ -51,7 +49,6 @@ class FileType extends AbstractType
     {
         $options = array(
             'compound' => false,
-            'js' => $this->formConfig['js'],
             'swf' => $this->formConfig['swf'],
             'xap' => $this->formConfig['xap'],
             'file_key' => $this->formConfig['file_key'],
