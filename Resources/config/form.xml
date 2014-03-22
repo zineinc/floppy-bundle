@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="zineinc.storage.form.file" class="ZineInc\StorageBundle\Form\Form\FileType">
+        <service id="zineinc.storage.form.file" class="ZineInc\StorageBundle\Form\Type\FileType">
             <argument type="collection">
                 <argument key="js">%zineinc.storage.form.plupload.js%</argument>
                 <argument key="swf">%zineinc.storage.form.plupload.swf%</argument>

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Form\Form;
+namespace ZineInc\StorageBundle\Form\Type;
 
 
 use Symfony\Component\Form\AbstractType;
