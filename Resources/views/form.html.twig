@@ -96,7 +96,13 @@
                 multi_selection: false,
                 url: '{{ url }}',
                 file_data_name: '{{ file_key }}',
-                {# TODO: filters #}
+                filters: {
+                    mime_types: [
+                        {% for fileType in file_types %}
+                        { title: "{{ fileType.name|trans|e("js") }}", extensions: "{{ fileType.extensions|join(",")|e("js") }}"}{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                },
                 init: {
                     FilesAdded: function(up, files) {
                         controller.onFileAdded(new StorageFileFormType.File(files[0].id, files[0].name));
@@ -107,7 +113,7 @@
                     },
 
                     Error: function(up, response) {
-                        controller.onError(response.response);
+                        controller.onError(response.response ? response.response : response);
                     },
 
                     FileUploaded: function(up, file, response) {

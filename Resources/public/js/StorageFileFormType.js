@@ -238,8 +238,10 @@ $(function($){
             this._view.progressUpdate(progress);
         },
         onError: function(response){
-            var parsedResponse = JSON.parse(response);
-            var error = this._errorMessages[parsedResponse.message] ? this._errorMessages[parsedResponse.message] : parsedResponse.message;
+            if(typeof(response) !== "object") {
+                response = JSON.parse(response);
+            }
+            var error = this._errorMessages[response.message] ? this._errorMessages[response.message] : response.message;
             this._view.showError(error);
         },
         onSuccess: function(response){
