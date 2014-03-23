@@ -38,7 +38,7 @@ class ZineIncStorageExtension extends Extension
     private function setContainerParameters(ContainerBuilder $container, array $config, $rootPath)
     {
         foreach($config as $name => $value) {
-            if(is_array($value) && $this->isAssociativeArray($value)) {
+            if($name !== 'file_type_aliases' && is_array($value) && $this->isAssociativeArray($value)) {
                 $this->setContainerParameters($container, $value, $rootPath.'.'.$name);
             } else {
                 $container->setParameter($rootPath.'.'.$name, $value);

@@ -69,6 +69,28 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
+                        ->arrayNode('file_type_aliases')
+                            ->defaultValue(array(
+                                'image' => array(
+                                    'name' => 'Images',
+                                    'extensions' => array('jpg', 'jpeg', 'png', 'gif')
+                                ),
+                            ))
+                            ->useAttributeAsKey('alias', true)
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('alias')
+                                        ->cannotBeEmpty()
+                                    ->end()
+                                    ->scalarNode('name')
+                                        ->cannotBeEmpty()
+                                    ->end()
+                                    ->variableNode('extensions')
+                                        ->cannotBeEmpty()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('plupload')
                             ->addDefaultsIfNotSet()
                             ->children()

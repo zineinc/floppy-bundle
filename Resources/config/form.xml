@@ -13,7 +13,7 @@
             </argument>
             <argument type="service" id="zineinc.storage.uploader.url" />
             <argument type="service" id="zineinc.storage.checksum_checker" />
-            <argument type="collection"></argument>
+            <argument>%zineinc.storage.form.file_type_aliases%</argument>
 
             <tag name="form.type" alias="storage_file" />
         </service>
