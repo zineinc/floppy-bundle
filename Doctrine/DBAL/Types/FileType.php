@@ -10,6 +10,8 @@ class FileType extends Type
 {
     const DEFAULT_LENGTH = 45;
 
+    private static $name = 'storage_file';
+
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
         if(empty($fieldDeclaration['length'])) {
@@ -36,6 +38,11 @@ class FileType extends Type
 
     public function getName()
     {
-        return 'file';
+        return self::$name;
+    }
+
+    public static function setName($name)
+    {
+        self::$name = $name;
     }
 }

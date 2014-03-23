@@ -4,6 +4,7 @@ namespace ZineInc\StorageBundle;
 
 use Doctrine\DBAL\Types\Type;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use ZineInc\StorageBundle\Doctrine\DBAL\Types\FileType;
 
 class ZineIncStorageBundle extends Bundle
 {
@@ -15,6 +16,7 @@ class ZineIncStorageBundle extends Bundle
             $name = $this->container->getParameter('zineinc.storage.doctrine_file_type_name');
 
             if(!Type::hasType($name)) {
+                FileType::setName($name);
                 Type::addType($name, 'ZineInc\StorageBundle\Doctrine\DBAL\Types\FileType');
             }
 
