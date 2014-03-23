@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Form\DataTransformer;
+namespace ZineInc\StorageBundle\Tests\Form\DataTransformer;
 
 
 use ZineInc\Storage\Common\FileId;

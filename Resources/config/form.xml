@@ -10,10 +10,10 @@
                 <argument key="swf">%zineinc.storage.form.plupload.swf%</argument>
                 <argument key="xap">%zineinc.storage.form.plupload.xap%</argument>
                 <argument key="file_key">%zineinc.storage.file_key%</argument>
-                <argument key="file_types" type="collection"></argument>
             </argument>
             <argument type="service" id="zineinc.storage.uploader.url" />
             <argument type="service" id="zineinc.storage.checksum_checker" />
+            <argument type="collection"></argument>
 
             <tag name="form.type" alias="storage_file" />
         </service>

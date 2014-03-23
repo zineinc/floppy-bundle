@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DependencyInjection;
+namespace ZineInc\StorageBundle\Tests\DependencyInjection;
 
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;

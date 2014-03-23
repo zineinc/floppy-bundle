@@ -1,7 +1,7 @@
 <?php
 
 
-namespace View;
+namespace ZineInc\StorageBundle\Tests\View;
 
 
 use ZineInc\Storage\Common\FileId;
