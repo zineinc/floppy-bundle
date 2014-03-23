@@ -25,6 +25,7 @@
         <service id="zineinc.storage.uploader" class="ZineInc\Storage\Client\BuzzFileSourceUploader" public="false">
             <argument type="service" id="zineinc.storage.buzz" />
             <argument type="service" id="zineinc.storage.uploader.url" />
+            <argument>%zineinc.storage.file_key%</argument>
         </service>
 
         <service id="zineinc.storage.uploader.url" factory-service="zineinc.storage.endpoint" factory-method="appendPath" class="ZineInc\Storage\Client\Url" public="false">
