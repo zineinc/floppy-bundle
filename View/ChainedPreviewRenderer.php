@@ -1,10 +1,10 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\View;
+namespace Floppy\Bundle\View;
 
 
-use ZineInc\Storage\Common\FileId;
+use Floppy\Common\FileId;
 
 class ChainedPreviewRenderer implements PreviewRenderer
 {

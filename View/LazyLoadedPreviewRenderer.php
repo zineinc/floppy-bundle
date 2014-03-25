@@ -1,16 +1,16 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\View;
+namespace Floppy\Bundle\View;
 
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use ZineInc\Storage\Common\FileId;
+use Floppy\Common\FileId;
 
 /**
  * Lazy loaded preview renderer
  *
- * Thanks to this class, circural reference "templating -> twig -> zineinc.storage.twig.extension" is avioded
+ * Thanks to this class, circural reference "templating -> twig -> floppy.twig.extension" is avioded
  */
 class LazyLoadedPreviewRenderer implements PreviewRenderer
 {

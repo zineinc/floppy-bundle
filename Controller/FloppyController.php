@@ -1,19 +1,19 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Controller;
+namespace Floppy\Bundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use ZineInc\Storage\Common\FileId;
+use Floppy\Common\FileId;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class StorageController extends Controller
+class FloppyController extends Controller
 {
     /**
-     * @Route("/preview", name="storageFilePreview")
+     * @Route("/preview", name="floppyFilePreview")
      * @Template()
      */
     public function previewAction(Request $request)

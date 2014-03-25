@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Form\Type;
+namespace Floppy\Bundle\Form\Type;
 
 
 use Symfony\Component\Form\AbstractType;
@@ -11,9 +11,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use ZineInc\Storage\Client\Url;
-use ZineInc\Storage\Common\ChecksumChecker;
-use ZineInc\StorageBundle\Form\DataTransformer\FileDataTransformer;
+use Floppy\Client\Url;
+use Floppy\Common\ChecksumChecker;
+use Floppy\Bundle\Form\DataTransformer\FileDataTransformer;
 
 class FileType extends AbstractType
 {
@@ -67,7 +67,7 @@ class FileType extends AbstractType
             'xap' => $this->formConfig['xap'],
             'file_key' => $this->formConfig['file_key'],
             'file_types' => array(),
-            'data_class' => 'ZineInc\\Storage\\Common\\FileId',
+            'data_class' => 'Floppy\\Common\\FileId',
         );
 
         $resolver->setDefaults($options);
@@ -119,6 +119,6 @@ class FileType extends AbstractType
 
     public function getName()
     {
-        return 'storage_file';
+        return 'floppy_file';
     }
 }

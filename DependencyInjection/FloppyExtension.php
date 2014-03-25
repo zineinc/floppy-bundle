@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\DependencyInjection;
+namespace Floppy\Bundle\DependencyInjection;
 
 
 use Symfony\Component\Config\FileLocator;
@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-class ZineIncStorageExtension extends Extension
+class FloppyExtension extends Extension
 {
     private $configFiles = array(
         'client.xml',
@@ -32,7 +32,7 @@ class ZineIncStorageExtension extends Extension
             $loader->load($file);
         }
 
-        $this->setContainerParameters($container, $config, 'zineinc.storage');
+        $this->setContainerParameters($container, $config, 'floppy');
     }
 
     private function setContainerParameters(ContainerBuilder $container, array $config, $rootPath)
@@ -63,6 +63,6 @@ class ZineIncStorageExtension extends Extension
 
     public function getAlias()
     {
-        return 'zine_inc_storage';
+        return 'floppy';
     }
 }

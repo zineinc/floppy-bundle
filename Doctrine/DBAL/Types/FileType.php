@@ -1,16 +1,16 @@
 <?php
 
-namespace ZineInc\StorageBundle\Doctrine\DBAL\Types;
+namespace Floppy\Bundle\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use ZineInc\Storage\Common\FileId;
+use Floppy\Common\FileId;
 
 class FileType extends Type
 {
     const DEFAULT_LENGTH = 45;
 
-    private static $name = 'storage_file';
+    private static $name = 'floppy_file';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

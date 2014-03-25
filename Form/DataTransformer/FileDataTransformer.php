@@ -1,12 +1,12 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Form\DataTransformer;
+namespace Floppy\Bundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use ZineInc\Storage\Common\ChecksumChecker;
-use ZineInc\Storage\Common\FileId;
+use Floppy\Common\ChecksumChecker;
+use Floppy\Common\FileId;
 
 class FileDataTransformer implements DataTransformerInterface
 {
@@ -29,7 +29,7 @@ class FileDataTransformer implements DataTransformerInterface
         }
 
         if(!is_string($value)) {
-            throw new TransformationFailedException('Cannot transform value, unexpected type, expected "ZineInc\Storage\Common\FileId", but '.self::type($value).' given');
+            throw new TransformationFailedException('Cannot transform value, unexpected type, expected "Floppy\Common\FileId", but '.self::type($value).' given');
         }
 
         return $value;

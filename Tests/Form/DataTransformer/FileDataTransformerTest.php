@@ -1,11 +1,11 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Tests\Form\DataTransformer;
+namespace Floppy\Bundle\Tests\Form\DataTransformer;
 
 
-use ZineInc\Storage\Common\FileId;
-use ZineInc\StorageBundle\Form\DataTransformer\FileDataTransformer;
+use Floppy\Common\FileId;
+use Floppy\Bundle\Form\DataTransformer\FileDataTransformer;
 
 class FileDataTransformerTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class FileDataTransformerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->checksumChecker = $this->getMock('ZineInc\Storage\Common\ChecksumChecker');
+        $this->checksumChecker = $this->getMock('Floppy\Common\ChecksumChecker');
         $this->transformer = new FileDataTransformer($this->checksumChecker);
     }
 

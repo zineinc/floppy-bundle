@@ -6,7 +6,7 @@
         </whitelist>
     </filter>
     <testsuites>
-        <testsuite name="ZineIncStorageBundle">
+        <testsuite name="FloppyBundle">
             <directory>Tests</directory>
         </testsuite>
     </testsuites>

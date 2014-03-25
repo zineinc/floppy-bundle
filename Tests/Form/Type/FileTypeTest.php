@@ -1,12 +1,12 @@
 <?php
 
-namespace ZineInc\StorageBundle\Tests\Form\Type;
+namespace Floppy\Bundle\Tests\Form\Type;
 
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use ZineInc\Storage\Client\Url;
-use ZineInc\StorageBundle\Form\Type\FileType;
+use Floppy\Client\Url;
+use Floppy\Bundle\Form\Type\FileType;
 
 class FileTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -116,7 +116,7 @@ class FileTypeTest extends \PHPUnit_Framework_TestCase
 
     private function checksumChecker()
     {
-        return $this->getMock('ZineInc\Storage\Common\ChecksumChecker');
+        return $this->getMock('Floppy\Common\ChecksumChecker');
     }
 }
  

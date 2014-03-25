@@ -1,20 +1,20 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Tests\DependencyInjection;
+namespace Floppy\Bundle\Tests\DependencyInjection;
 
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use ZineInc\Storage\Common\FileId;
-use ZineInc\StorageBundle\DependencyInjection\ZineIncStorageExtension;
+use Floppy\Common\FileId;
+use Floppy\Bundle\DependencyInjection\FloppyExtension;
 
-class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
+class FloppyExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $extension;
 
     protected function setUp()
     {
-        $this->extension = new ZineIncStorageExtension();
+        $this->extension = new FloppyExtension();
     }
 
     /**
@@ -38,15 +38,15 @@ class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
 
         //then
 
-        $client = $container->get('zineinc.storage.client');
-        $urlGenerator = $container->get('zineinc.storage.url_generator');
-        $storageExtension = $container->get('zineinc.storage.twig.extension');
-        $imagePreviewRenderer = $container->get('zineinc.storage.view.preview.image');
+        $client = $container->get('floppy.client');
+        $urlGenerator = $container->get('floppy.url_generator');
+        $storageExtension = $container->get('floppy.twig.extension');
+        $imagePreviewRenderer = $container->get('floppy.view.preview.image');
 
-        $this->assertInstanceOf('ZineInc\Storage\Client\StorageClient', $client);
-        $this->assertInstanceOf('ZineInc\Storage\Client\UrlGenerator', $urlGenerator);
-        $this->assertInstanceOf('ZineInc\StorageBundle\Twig\Extensions\StorageExtension', $storageExtension);
-        $this->assertInstanceOf('ZineInc\StorageBundle\View\PreviewRenderer', $imagePreviewRenderer);
+        $this->assertInstanceOf('Floppy\Client\StorageClient', $client);
+        $this->assertInstanceOf('Floppy\Client\UrlGenerator', $urlGenerator);
+        $this->assertInstanceOf('Floppy\Bundle\Twig\Extensions\FloppyExtension', $storageExtension);
+        $this->assertInstanceOf('Floppy\Bundle\View\PreviewRenderer', $imagePreviewRenderer);
 
         $this->assertTrue($imagePreviewRenderer->supports(new FileId('some.jpg')));
         $this->assertFalse($imagePreviewRenderer->supports(new FileId('some.txt')));
@@ -95,9 +95,9 @@ class ZineIncStorageExtensionTest extends \PHPUnit_Framework_TestCase
 
         //then
 
-        $this->assertEquals($config['endpoint']['host'], $container->getParameter('zineinc.storage.endpoint.host'));
-        $this->assertEquals($config['endpoint']['protocol'], $container->getParameter('zineinc.storage.endpoint.protocol'));
-        $this->assertEquals($config['secret_key'], $container->getParameter('zineinc.storage.secret_key'));
+        $this->assertEquals($config['endpoint']['host'], $container->getParameter('floppy.endpoint.host'));
+        $this->assertEquals($config['endpoint']['protocol'], $container->getParameter('floppy.endpoint.protocol'));
+        $this->assertEquals($config['secret_key'], $container->getParameter('floppy.secret_key'));
     }
 }
  

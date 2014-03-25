@@ -1,13 +1,13 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Twig\Extensions;
+namespace Floppy\Bundle\Twig\Extensions;
 
-use ZineInc\Storage\Client\UrlGenerator;
-use ZineInc\Storage\Common\FileId;
-use ZineInc\StorageBundle\View\PreviewRenderer;
+use Floppy\Client\UrlGenerator;
+use Floppy\Common\FileId;
+use Floppy\Bundle\View\PreviewRenderer;
 
-class StorageExtension extends \Twig_Extension
+class FloppyExtension extends \Twig_Extension
 {
     private $urlGenerator;
     private $previewRenderer;
@@ -21,8 +21,8 @@ class StorageExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'storage_url' => new \Twig_Function_Method($this, 'getUrl'),
-            'storage_file_preview' => new \Twig_Function_Method($this, 'renderPreview', array('needs_environment' => true, 'is_safe' => array('html'))),
+            'floppy_url' => new \Twig_Function_Method($this, 'getUrl'),
+            'floppy_file_preview' => new \Twig_Function_Method($this, 'renderPreview', array('needs_environment' => true, 'is_safe' => array('html'))),
         );
     }
 
@@ -38,6 +38,6 @@ class StorageExtension extends \Twig_Extension
 
     public function getName()
     {
-        return 'zineinc_storage';
+        return 'floppy';
     }
 }

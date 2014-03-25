@@ -1,5 +1,5 @@
 {
-    "name": "zineinc/storage-bundle",
+    "name": "floppy/bundle",
     "license": "MIT",
     "authors": [
         {
@@ -10,8 +10,8 @@
     "require": {
         "jbroadway/urlify": ">=1.0.0,<1.1.0",
         "kriswallsmith/buzz": ">=v0.10",
-        "zineinc/storage-common": "*",
-        "zineinc/storage-client": "*",
+        "floppy/common": "*",
+        "floppy/client": "*",
         "symfony/form": "~2.1",
         "symfony/framework-bundle": "~2.1",
         "doctrine/doctrine-bundle": "*",
@@ -19,37 +19,37 @@
         "symfony/twig-bridge": "~2.1"
     },
     "autoload": {
-    	"psr-0": { "ZineInc\\StorageBundle\\": "" }
+    	"psr-0": { "Floppy\\Bundle\\": "" }
     },
-    "target-dir": "ZineInc/StorageBundle",
+    "target-dir": "Floppy/Bundle",
     "repositories": [
         {
             "type": "package",
             "package": {
-                "name": "zineinc/storage-common",
+                "name": "floppy/common",
                 "version": "0.0.6",
                 "source": {
                     "url": "git@codebasehq.com:advisio/zineinc/storage-common.git",
                     "type": "git",
-                    "reference": "master"
+                    "reference": "rebranding"
                 },
                 "autoload": {
-                    "psr-0": { "ZineInc\\Storage\\": "src/" }
+                    "psr-0": { "Floppy\\": "src/" }
                 }
             }
         } ,
         {
             "type": "package",
             "package": {
-                "name": "zineinc/storage-client",
+                "name": "floppy/client",
                 "version": "0.0.6",
                 "source": {
                     "url": "git@codebasehq.com:advisio/zineinc/storage-client.git",
                     "type": "git",
-                    "reference": "master"
+                    "reference": "rebranding"
                 },
                 "autoload": {
-                    "psr-0": { "ZineInc\\Storage\\": "src/" }
+                    "psr-0": { "Floppy\\": "src/" }
                 }
             }
         }

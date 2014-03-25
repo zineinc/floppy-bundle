@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\DependencyInjection;
+namespace Floppy\Bundle\DependencyInjection;
 
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -12,7 +12,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $root = $treeBuilder->root('zineinc_storage');
+        $root = $treeBuilder->root('floppy');
 
         $root->children()
                 ->arrayNode('endpoint')
@@ -63,7 +63,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultTrue()
                 ->end()
                 ->scalarNode('doctrine_file_type_name')
-                    ->defaultValue('storage_file')
+                    ->defaultValue('floppy_file')
                     ->cannotBeEmpty()
                 ->end()
                 ->arrayNode('form')

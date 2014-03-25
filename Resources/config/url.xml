@@ -5,47 +5,47 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="zineinc.storage.secret_key"></parameter>
-        <parameter key="zineinc.storage.checksum_length">5</parameter>
-        <parameter key="zineinc.storage.filepath_chooser.dir_count">2</parameter>
-        <parameter key="zineinc.storage.filepath_chooser.chars_for_dir">3</parameter>
-        <parameter key="zineinc.storage.filepath_chooser.orig_file_dir">orig</parameter>
-        <parameter key="zineinc.storage.filepath_chooser.variant_file_dir">v</parameter>
+        <parameter key="floppy.secret_key"></parameter>
+        <parameter key="floppy.checksum_length">5</parameter>
+        <parameter key="floppy.filepath_chooser.dir_count">2</parameter>
+        <parameter key="floppy.filepath_chooser.chars_for_dir">3</parameter>
+        <parameter key="floppy.filepath_chooser.orig_file_dir">orig</parameter>
+        <parameter key="floppy.filepath_chooser.variant_file_dir">v</parameter>
     </parameters>
 
     <services>
-        <service id="zineinc.storage.url_generator" class="ZineInc\Storage\Client\UrlGeneratorImpl">
+        <service id="floppy.url_generator" class="Floppy\Client\UrlGeneratorImpl">
             <argument type="collection">
-                <argument key="image" type="service" id="zineinc.storage.path_generator.image" />
-                <argument key="file" type="service" id="zineinc.storage.path_generator.file" />
+                <argument key="image" type="service" id="floppy.path_generator.image" />
+                <argument key="file" type="service" id="floppy.path_generator.file" />
             </argument>
-            <argument type="service" id="zineinc.storage.endpoint" />
-            <argument type="service" id="zineinc.storage.host_resolver" />
+            <argument type="service" id="floppy.endpoint" />
+            <argument type="service" id="floppy.host_resolver" />
         </service>
 
-        <service id="zineinc.storage.path_generator.image" class="ZineInc\Storage\Common\FileHandler\ImagePathGenerator" public="false">
-            <argument type="service" id="zineinc.storage.checksum_checker" />
-            <argument type="service" id="zineinc.storage.filepath_chooser" />
+        <service id="floppy.path_generator.image" class="Floppy\Common\FileHandler\ImagePathGenerator" public="false">
+            <argument type="service" id="floppy.checksum_checker" />
+            <argument type="service" id="floppy.filepath_chooser" />
         </service>
 
-        <service id="zineinc.storage.checksum_checker" class="ZineInc\Storage\Common\ChecksumCheckerImpl" public="false">
-            <argument>%zineinc.storage.secret_key%</argument>
-            <argument>%zineinc.storage.checksum_length%</argument>
+        <service id="floppy.checksum_checker" class="Floppy\Common\ChecksumCheckerImpl" public="false">
+            <argument>%floppy.secret_key%</argument>
+            <argument>%floppy.checksum_length%</argument>
         </service>
 
-        <service id="zineinc.storage.filepath_chooser" class="ZineInc\Storage\Common\Storage\FilepathChoosingStrategyImpl" public="false">
-            <argument>%zineinc.storage.filepath_chooser.dir_count%</argument>
-            <argument>%zineinc.storage.filepath_chooser.chars_for_dir%</argument>
-            <argument>%zineinc.storage.filepath_chooser.orig_file_dir%</argument>
-            <argument>%zineinc.storage.filepath_chooser.variant_file_dir%</argument>
+        <service id="floppy.filepath_chooser" class="Floppy\Common\Storage\FilepathChoosingStrategyImpl" public="false">
+            <argument>%floppy.filepath_chooser.dir_count%</argument>
+            <argument>%floppy.filepath_chooser.chars_for_dir%</argument>
+            <argument>%floppy.filepath_chooser.orig_file_dir%</argument>
+            <argument>%floppy.filepath_chooser.variant_file_dir%</argument>
         </service>
 
-        <service id="zineinc.storage.path_generator.file" class="ZineInc\Storage\Common\FileHandler\FilePathGenerator" public="false">
-            <argument type="service" id="zineinc.storage.checksum_checker" />
-            <argument type="service" id="zineinc.storage.filepath_chooser" />
+        <service id="floppy.path_generator.file" class="Floppy\Common\FileHandler\FilePathGenerator" public="false">
+            <argument type="service" id="floppy.checksum_checker" />
+            <argument type="service" id="floppy.filepath_chooser" />
         </service>
 
-        <service id="zineinc.storage.host_resolver" class="ZineInc\Storage\Client\EmptyHostResolver" public="false" />
+        <service id="floppy.host_resolver" class="Floppy\Client\EmptyHostResolver" public="false" />
     </services>
 
 </container>

@@ -1,26 +1,26 @@
-{% block storage_file_row %}
+{% block floppy_file_row %}
     {{ form_row(form) }}
-    {{ block("storage_file_javascript", form.vars ) }}
+    {{ block("floppy_file_javascript", form.vars ) }}
 {% endblock %}
 
-{% block storage_file_widget %}
-    <div id="storage-file-box{{ id }}" class="storage-file-box">
+{% block floppy_file_widget %}
+    <div id="floppy-file-box{{ id }}" class="floppy-file-box">
         <div class="error-message"></div>
         {% if data and data.id %}
-            <div id="storage-preview-{{ id }}">
-                {{ storage_file_preview(data) }}
+            <div id="floppy-preview-{{ id }}">
+                {{ floppy_file_preview(data) }}
             </div>
             <input id="{{ id }}-id" type="hidden" value="{{ data.id }}" name="{{ full_name }}[id]" />
         {% else %}
-            <div id="storage-preview-{{ id }}"></div>
+            <div id="floppy-preview-{{ id }}"></div>
             <input type="hidden" id="{{ id }}-id" value="" name="{{ full_name }}[id]" />
         {% endif %}
         <input type="hidden" id="{{ id }}-attributes" value="{% if data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
 
-        <button id="storage-file-button-{{ id }}" class="primary">{{ "upload"|trans }}</button>
-        <div id="storage-uploading-file-{{id}}" class="storage-uploading">
+        <button id="floppy-file-button-{{ id }}" class="primary">{{ "upload"|trans }}</button>
+        <div id="floppy-uploading-file-{{id}}" class="floppy-uploading">
             <div class="js-name"></div>
-            <div class="storage-file-progress-holder">
+            <div class="floppy-file-progress-holder">
                 <div class="js-bar bar"></div>
             </div>
             <span class="js-stop stop">{{ "x"|trans }}</span>
@@ -29,22 +29,22 @@
 
 {% endblock %}
 
-{% block storage_file_javascript %}
+{% block floppy_file_javascript %}
     <script type="text/javascript">
         $(function(){
             if(typeof(plupload) == "undefined") {
                 throw "plupload library is missing. You should include plupload script into your layout.";
             }
 
-            if(typeof(StorageFileFormType) == "undefined") {
-                throw "StorageFileFormType javascript is missing. You should include this script into your layout.";
+            if(typeof(FloppyFileFormType) == "undefined") {
+                throw "FloppyFileFormType javascript is missing. You should include this script into your layout.";
             }
 
-            var uploadingFileBox = $("#storage-uploading-file-{{id}}");
+            var uploadingFileBox = $("#floppy-uploading-file-{{id}}");
             var idInput = $("#{{ id }}-id");
             var attributesInput = $("#{{ id }}-attributes");
-            var preview = $("#storage-preview-{{ id }}");
-            var box = $("#storage-file-box{{ id }}");
+            var preview = $("#floppy-preview-{{ id }}");
+            var box = $("#floppy-file-box{{ id }}");
             var errorBox = box.find(".error-message");
 
             var errorMessages = {
@@ -67,9 +67,9 @@
                 }
             };
 
-            var eventBus = new StorageFileFormType.EventBus();
+            var eventBus = new FloppyFileFormType.EventBus();
 
-            var view = new StorageFileFormType.View({
+            var view = new FloppyFileFormType.View({
                 eventBus: eventBus,
                 box: box,
                 previewBox: preview,
@@ -79,20 +79,20 @@
                 uploadingFileBox: uploadingFileBox
             });
 
-            var controller = new StorageFileFormType.Controller({
+            var controller = new FloppyFileFormType.Controller({
                 eventBus: eventBus,
                 uploader: uploader,
                 view: view,
                 errorMessages: errorMessages,
-                previewUrl: "{{ url("storageFilePreview") }}"
+                previewUrl: "{{ url("floppyFilePreview") }}"
             });
 
             pluploader = new plupload.Uploader({
                 runtimes: 'html5,flash,silverlight,html4',
                 flash_swf_url : '{{ swf }}',
                 silverlight_xap_url : '{{ xap }}',
-                browse_button: 'storage-file-button-{{ id }}',
-                container: 'storage-file-box{{ id }}',
+                browse_button: 'floppy-file-button-{{ id }}',
+                container: 'floppy-file-box{{ id }}',
                 multi_selection: false,
                 url: '{{ url }}',
                 file_data_name: '{{ file_key }}',
@@ -105,7 +105,7 @@
                 },
                 init: {
                     FilesAdded: function(up, files) {
-                        controller.onFileAdded(new StorageFileFormType.File(files[0].id, files[0].name));
+                        controller.onFileAdded(new FloppyFileFormType.File(files[0].id, files[0].name));
                     },
 
                     UploadProgress: function(up, file) {

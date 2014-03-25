@@ -1,23 +1,23 @@
 <?php
 
-namespace ZineInc\StorageBundle;
+namespace Floppy\Bundle;
 
 use Doctrine\DBAL\Types\Type;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use ZineInc\StorageBundle\Doctrine\DBAL\Types\FileType;
+use Floppy\Bundle\Doctrine\DBAL\Types\FileType;
 
-class ZineIncStorageBundle extends Bundle
+class FloppyBundle extends Bundle
 {
     public function boot()
     {
         parent::boot();
 
-        if($this->container->getParameter('zineinc.storage.enable_doctrine_file_type')) {
-            $name = $this->container->getParameter('zineinc.storage.doctrine_file_type_name');
+        if($this->container->getParameter('floppy.enable_doctrine_file_type')) {
+            $name = $this->container->getParameter('floppy.doctrine_file_type_name');
 
             if(!Type::hasType($name)) {
                 FileType::setName($name);
-                Type::addType($name, 'ZineInc\StorageBundle\Doctrine\DBAL\Types\FileType');
+                Type::addType($name, 'Floppy\Bundle\Doctrine\DBAL\Types\FileType');
             }
 
             if($this->container->has('doctrine.dbal.default_connection')) {

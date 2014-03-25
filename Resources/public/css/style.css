@@ -1,12 +1,12 @@
 
 /* ------------------------------------------------------------------
-                             STORAGE FILE
+                             FLOPPY FILE
    ------------------------------------------------------------------ */
 
-.storage-file-box {
+.floppy-file-box {
 	overflow: hidden;
 }
-.storage-file-box img {
+.floppy-file-box img {
 	border: 1px solid #e2e2e2;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -14,17 +14,17 @@
 	float: left;
 	margin-right: 5px;
 }
-.storage-file-box .stop {
+.floppy-file-box .stop {
 	color: #cd0808;
 	cursor: pointer;
 	font-size: 19px;
 }
-.storage-file-box .stop:hover {
+.floppy-file-box .stop:hover {
 	color: #930808;
 }
 
 /* Buttons */
-.storage-file-box button {
+.floppy-file-box button {
     display: inline-block;
     padding: 7px 12px 6px 12px;
     margin-bottom: 0;
@@ -42,21 +42,21 @@
 	border-radius: 4px;
 	min-width: 85px;
 }
-.storage-file-box .primary {
+.floppy-file-box .primary {
 	background-color: #0964A5;
     border-color: #0964A5;
 	color: #fff;
 }
 
-.storage-file-box .delete {
+.floppy-file-box .delete {
 	margin-bottom: 7px;
 }
 
 /* Progress bar*/
-.storage-file-box .storage-uploading {
+.floppy-file-box .floppy-uploading {
 	margin-top: 10px;
 }
-.storage-uploading .storage-file-progress-holder { 
+.floppy-uploading .floppy-file-progress-holder {
     border: 1px solid #E2E2E2;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -67,7 +67,7 @@
     padding: 3px;
     width: 165px;
 }
-.storage-uploading .storage-file-progress-holder .bar { 
+.floppy-uploading .floppy-file-progress-holder .bar {
 	background-color: #0964A5; 
 	height: 100%; 
 	width: 0px; 
@@ -76,6 +76,6 @@
 	border-radius: 4px;
 }
 /* Errors */
-.storage-file-box .error-message {
+.floppy-file-box .error-message {
 	color: #cd0808;
 }

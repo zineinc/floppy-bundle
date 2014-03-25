@@ -1,11 +1,11 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\View;
+namespace Floppy\Bundle\View;
 
 
 use Symfony\Component\Templating\EngineInterface;
-use ZineInc\Storage\Common\FileId;
+use Floppy\Common\FileId;
 
 class TemplatePreviewRenderer implements PreviewRenderer
 {

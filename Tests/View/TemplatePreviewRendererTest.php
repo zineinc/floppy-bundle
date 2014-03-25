@@ -1,11 +1,11 @@
 <?php
 
 
-namespace ZineInc\StorageBundle\Tests\View;
+namespace Floppy\Bundle\Tests\View;
 
 
-use ZineInc\Storage\Common\FileId;
-use ZineInc\StorageBundle\View\TemplatePreviewRenderer;
+use Floppy\Common\FileId;
+use Floppy\Bundle\View\TemplatePreviewRenderer;
 
 class TemplatePreviewRendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class TemplatePreviewRendererTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $this->attributesProvider = $this->getMock('ZineInc\StorageBundle\View\AttributesProvider');
+        $this->attributesProvider = $this->getMock('Floppy\Bundle\View\AttributesProvider');
 
         $this->renderer = $this->createRenderer($this->templating, $this->attributesProvider);
     }

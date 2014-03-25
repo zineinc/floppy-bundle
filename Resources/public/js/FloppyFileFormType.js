@@ -270,7 +270,7 @@ $(function($){
         };
     };
 
-    window.StorageFileFormType = {
+    window.FloppyFileFormType = {
         View: View,
         UploadingFileView: UploadingFileView,
         Controller: Controller,

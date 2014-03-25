@@ -1,16 +1,16 @@
 Quick tour
 ==========
 
-1) Configure your storage server (shown in storage-server repo)
+1) Configure your floppy server (shown in floppy-server repo)
 
 2) Configure this bundle:
 
 
     ...config.yml
-    zine_inc_storage:
+    floppy:
         endpoint:
             protocol: http
-            host: your-storage-server-host.com
+            host: your-floppy-server-host.com
             path: /
         secret_key: your-super-secret-key-the-same-key-as-in-server
 
@@ -18,7 +18,12 @@ Quick tour
     twig:
       form:
         resources:
-          - "ZineIncStorageBundle::form.html.twig"
+          - "FloppyBundle::form.html.twig"
+
+    ...routing.yml
+    FloppyBundle:
+        resource: "@FloppyBundle/Resources/config/routing.yml"
+        prefix: "/floppy"
 
 
 3) Define your form model or entity:
@@ -26,12 +31,12 @@ Quick tour
 
     namespace ...
 
-    use ZineInc\Storage\Common\FileId;
+    use Floppy\Common\FileId;
     use Doctrine\ORM\Mapping as ORM;
 
     class Document {
         /**
-         * @ORM\Column(type='storage_file')
+         * @ORM\Column(type='floppy_file')
          */
         private $file;
 
@@ -44,12 +49,12 @@ Quick tour
         }
     }
 
-4) Use `storage_file` in your form type:
+4) Use `floppy_file` in your form type:
 
 
     class DocumentFormType extends .... {
         public function buildForm(...) {
-            $builder->add('file', 'storage_file');
+            $builder->add('file', 'floppy_file');
         }
 
         //...rest ommited
@@ -63,7 +68,7 @@ Quick tour
     {% block stylesheets %}
         {{ parent() }}
         {# default styles for form field #}
-        <link href="{{ asset("bundles/zineincstorage/css/style.css") }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ asset("bundles/floppy/css/style.css") }}" rel="stylesheet" type="text/css" media="all" />
     {% endblock %}
 
     {% block javascripts %}
@@ -76,7 +81,7 @@ Quick tour
         <script src="http://rawgithub.com/moxiecode/plupload/master/js/plupload.full.min.js"></script>
 
         {# bundle specific javascript #}
-        <script src="{{ asset("bundles/zineincstorage/js/StorageFileFormType.js") }}"></script>
+        <script src="{{ asset("bundles/floppy/js/FloppyFileFormType.js") }}"></script>
     {% endblock %}
 
     {# block content #}
@@ -89,7 +94,7 @@ Quick tour
 
 
     {# document variable is object of Document class defined in step 3 #}
-    {{ storage_url(document.fileId.variant({ "name": "some name" }), "file") }}
+    {{ floppy_url(document.fileId.variant({ "name": "some name" }), "file") }}
 
     {# if you know the file is image you can render url to image with given sizes #}
-    {{ storage_url(document.fileId.variant({ "width": 200, "height": 300 }), "image") }}
+    {{ floppy_url(document.fileId.variant({ "width": 200, "height": 300 }), "image") }}
