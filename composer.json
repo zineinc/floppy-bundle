@@ -31,7 +31,7 @@
                 "source": {
                     "url": "git@codebasehq.com:advisio/zineinc/storage-common.git",
                     "type": "git",
-                    "reference": "rebranding"
+                    "reference": "master"
                 },
                 "autoload": {
                     "psr-0": { "Floppy\\": "src/" }
@@ -46,7 +46,7 @@
                 "source": {
                     "url": "git@codebasehq.com:advisio/zineinc/storage-client.git",
                     "type": "git",
-                    "reference": "rebranding"
+                    "reference": "master"
                 },
                 "autoload": {
                     "psr-0": { "Floppy\\": "src/" }
