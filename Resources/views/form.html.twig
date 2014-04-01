@@ -15,7 +15,7 @@
             <div id="floppy-preview-{{ id }}"></div>
             <input type="hidden" id="{{ id }}-id" value="" name="{{ full_name }}[id]" />
         {% endif %}
-        <input type="hidden" id="{{ id }}-attributes" value="{% if data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
+        <input type="hidden" id="{{ id }}-attributes" value="{% if data and data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
 
         <button id="floppy-file-button-{{ id }}" class="primary">{{ "upload"|trans }}</button>
         <div id="floppy-uploading-file-{{id}}" class="floppy-uploading">
