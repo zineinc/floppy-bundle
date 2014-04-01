@@ -43,7 +43,7 @@ class FloppyExtensionTest extends \PHPUnit_Framework_TestCase
         $storageExtension = $container->get('floppy.twig.extension');
         $imagePreviewRenderer = $container->get('floppy.view.preview.image');
 
-        $this->assertInstanceOf('Floppy\Client\StorageClient', $client);
+        $this->assertInstanceOf('Floppy\Client\FloppyClient', $client);
         $this->assertInstanceOf('Floppy\Client\UrlGenerator', $urlGenerator);
         $this->assertInstanceOf('Floppy\Bundle\Twig\Extensions\FloppyExtension', $storageExtension);
         $this->assertInstanceOf('Floppy\Bundle\View\PreviewRenderer', $imagePreviewRenderer);

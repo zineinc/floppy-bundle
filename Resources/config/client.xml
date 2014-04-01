@@ -12,7 +12,7 @@
     </parameters>
 
     <services>
-        <service id="floppy.client" class="Floppy\Client\StorageClient">
+        <service id="floppy.client" class="Floppy\Client\FloppyClient">
             <argument type="service" id="floppy.uploader" />
         </service>
 
