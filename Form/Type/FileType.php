@@ -47,6 +47,7 @@ class FileType extends AbstractType
             ->setAttribute('xap', $options['xap'])
             ->setAttribute('file_key', $options['file_key'])
             ->setAttribute('file_types', $options['file_types'])
+            ->setAttribute('transport_types', $options['transport_types'])
         ;
     }
 
@@ -57,6 +58,7 @@ class FileType extends AbstractType
         $view->vars['file_key'] = $form->getConfig()->getAttribute('file_key');
         $view->vars['file_types'] = $form->getConfig()->getAttribute('file_types');
         $view->vars['url'] = $this->endpointUrl;
+        $view->vars['transport_types'] = $form->getConfig()->getAttribute('transport_types');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -67,7 +69,7 @@ class FileType extends AbstractType
             'xap' => $this->formConfig['xap'],
             'file_key' => $this->formConfig['file_key'],
             'file_types' => array(),
-            'data_class' => 'Floppy\\Common\\FileId',
+            'transport_types' => array('html5', 'flash', 'silverlight', 'html4'),
         );
 
         $resolver->setDefaults($options);
@@ -77,6 +79,7 @@ class FileType extends AbstractType
 
         $formType = $this;
         $fileTypeAliases = $this->fileTypeAliases;
+
         $resolver->setNormalizers(array(
             'file_types' => function(Options $options, $values) use($formType, $fileTypeAliases) {
                 if(is_string($values)) {

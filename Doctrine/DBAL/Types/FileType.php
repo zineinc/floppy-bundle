@@ -23,12 +23,12 @@ class FileType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value === null ? null : $value->id();
+        return (empty($value) || !$value->id()) ? null : $value->id();
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return $value === null ? null : new FileId($value);
+        return empty($value) ? null : new FileId($value);
     }
 
     public function getDefaultLength(AbstractPlatform $platform)

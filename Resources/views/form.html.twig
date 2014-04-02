@@ -88,7 +88,7 @@
             });
 
             pluploader = new plupload.Uploader({
-                runtimes: 'html5,flash,silverlight,html4',
+                runtimes: '{{ transport_types|join(",")|e("js") }}',
                 flash_swf_url : '{{ swf }}',
                 silverlight_xap_url : '{{ xap }}',
                 browse_button: 'floppy-file-button-{{ id }}',
