@@ -21,6 +21,11 @@
             </argument>
             <argument type="service" id="floppy.endpoint" />
             <argument type="service" id="floppy.host_resolver" />
+            <argument type="service" id="floppy.credentials_generator" />
+        </service>
+
+        <service id="floppy.credentials_generator" class="Floppy\Client\Security\PolicyGenerator" public="false">
+            <argument type="service" id="floppy.checksum_checker" />
         </service>
 
         <service id="floppy.path_generator.image" class="Floppy\Common\FileHandler\ImagePathGenerator" public="false">

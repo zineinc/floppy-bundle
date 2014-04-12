@@ -14,6 +14,7 @@
     <services>
         <service id="floppy.client" class="Floppy\Client\FloppyClient">
             <argument type="service" id="floppy.uploader" />
+            <argument type="service" id="floppy.credentials_generator" />
         </service>
 
         <service id="floppy.endpoint" class="Floppy\Client\Url" public="true">
