@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('checksum_length')
-                    ->defaultValue(5)
+                    ->defaultValue(-1)
                 ->end()
                 ->arrayNode('filepath_chooser')
                     ->children()
