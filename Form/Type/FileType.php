@@ -4,6 +4,7 @@
 namespace Floppy\Bundle\Form\Type;
 
 
+use Floppy\Client\Security\CredentialsGenerator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -24,9 +25,10 @@ class FileType extends AbstractType
     );
     private $endpointUrl;
     private $checksumChecker;
+    private $credentialsGenerator;
     private $fileTypeAliases = array();
 
-    public function __construct(array $formConfig, Url $endpointUrl, ChecksumChecker $checksumChecker, array $fileTypeAliases = array())
+    public function __construct(array $formConfig, Url $endpointUrl, ChecksumChecker $checksumChecker, CredentialsGenerator $credentialsGenerator, array $fileTypeAliases = array())
     {
         if($extraKeys = array_diff_key($formConfig, $this->formConfig)) {
             throw new \InvalidArgumentException(sprintf('Unexpected formConfig keys: %s', implode(', ', array_keys($extraKeys))));
@@ -35,6 +37,7 @@ class FileType extends AbstractType
         $this->formConfig = $formConfig;
         $this->endpointUrl = $endpointUrl;
         $this->checksumChecker = $checksumChecker;
+        $this->credentialsGenerator = $credentialsGenerator;
 
         $this->validateFileTypes($fileTypeAliases);
         $this->fileTypeAliases = $fileTypeAliases;
@@ -48,6 +51,7 @@ class FileType extends AbstractType
             ->setAttribute('file_key', $options['file_key'])
             ->setAttribute('file_types', $options['file_types'])
             ->setAttribute('transport_types', $options['transport_types'])
+            ->setAttribute('credentials', $options['credentials'])
         ;
     }
 
@@ -59,6 +63,9 @@ class FileType extends AbstractType
         $view->vars['file_types'] = $form->getConfig()->getAttribute('file_types');
         $view->vars['url'] = $this->endpointUrl;
         $view->vars['transport_types'] = $form->getConfig()->getAttribute('transport_types');
+
+        $credentials = $form->getConfig()->getAttribute('credentials');
+        $view->vars['credentials'] = $credentials ? $this->credentialsGenerator->generateCredentials($credentials) : null;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -70,11 +77,13 @@ class FileType extends AbstractType
             'file_key' => $this->formConfig['file_key'],
             'file_types' => array(),
             'transport_types' => array('html5', 'flash', 'silverlight', 'html4'),
+            'credentials' => null,
         );
 
         $resolver->setDefaults($options);
         $resolver->setAllowedTypes(array(
             'file_types' => array('string', 'array'),
+            'credentials' => array('array', 'null'),
         ));
 
         $formType = $this;

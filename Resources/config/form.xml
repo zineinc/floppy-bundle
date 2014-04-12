@@ -13,6 +13,7 @@
             </argument>
             <argument type="service" id="floppy.uploader.url" />
             <argument type="service" id="floppy.checksum_checker" />
+            <argument type="service" id="floppy.credentials_generator" />
             <argument>%floppy.form.file_type_aliases%</argument>
 
             <tag name="form.type" alias="floppy_file" />

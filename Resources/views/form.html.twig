@@ -103,6 +103,13 @@
                         {% endfor %}
                     ]
                 },
+                {% if credentials %}
+                multipart_params: {
+                    {% for key,value in credentials %}
+                        "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                },
+                {% endif %}
                 init: {
                     FilesAdded: function(up, files) {
                         controller.onFileAdded(new FloppyFileFormType.File(files[0].id, files[0].name));
