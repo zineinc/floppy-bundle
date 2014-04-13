@@ -65,7 +65,7 @@ class FileType extends AbstractType
         $view->vars['transport_types'] = $form->getConfig()->getAttribute('transport_types');
 
         $credentials = $form->getConfig()->getAttribute('credentials');
-        $view->vars['credentials'] = $credentials ? $this->credentialsGenerator->generateCredentials($credentials) : null;
+        $view->vars['credentials'] = $this->credentialsGenerator->generateCredentials($credentials);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -77,13 +77,13 @@ class FileType extends AbstractType
             'file_key' => $this->formConfig['file_key'],
             'file_types' => array(),
             'transport_types' => array('html5', 'flash', 'silverlight', 'html4'),
-            'credentials' => null,
+            'credentials' => array(),
         );
 
         $resolver->setDefaults($options);
         $resolver->setAllowedTypes(array(
             'file_types' => array('string', 'array'),
-            'credentials' => array('array', 'null'),
+            'credentials' => array('array'),
         ));
 
         $formType = $this;

@@ -26,7 +26,7 @@ class FloppyExtension extends \Twig_Extension
         );
     }
 
-    public function getUrl(FileId $fileId, $type, array $credentials = null)
+    public function getUrl(FileId $fileId, $type, array $credentials = array())
     {
         return $this->urlGenerator->generate($fileId, $type, $credentials);
     }
