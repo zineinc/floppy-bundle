@@ -2,6 +2,7 @@
 
 namespace Floppy\Bundle\Tests\Form\Type;
 
+use Floppy\Tests\Client\Stub\FakeCredentialsGenerator;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +20,7 @@ class FileTypeTest extends \PHPUnit_Framework_TestCase
     {
         //given
 
-        $fileType = new FileType($this->validFormConfig(), $this->endpointUrl(), $this->checksumChecker(), $fileTypeAliases);
+        $fileType = new FileType($this->validFormConfig(), $this->endpointUrl(), $this->checksumChecker(), $this->credentialsGenerator(), $fileTypeAliases);
 
         if($expectedException) {
             $this->setExpectedException('Symfony\Component\OptionsResolver\Exception\InvalidOptionsException');
@@ -117,6 +118,11 @@ class FileTypeTest extends \PHPUnit_Framework_TestCase
     private function checksumChecker()
     {
         return $this->getMock('Floppy\Common\ChecksumChecker');
+    }
+
+    private function credentialsGenerator()
+    {
+        return new FakeCredentialsGenerator(array());
     }
 }
  
