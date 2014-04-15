@@ -94,7 +94,7 @@ Quick tour
 
 
     {# document variable is object of Document class defined in step 3 #}
-    {{ floppy_url(document.fileId.variant({ "name": "some name" }), "file") }}
+    {{ floppy_url(document.fileId, { "name": "some name" }) }}
 
     {# if you know the file is image you can render url to image with given sizes #}
-    {{ floppy_url(document.fileId.variant({ "width": 200, "height": 300 }), "image") }}
+    {{ floppy_url(document.fileId, { "width": 200, "height": 300 }, "image") }}

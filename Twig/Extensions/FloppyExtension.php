@@ -11,11 +11,13 @@ class FloppyExtension extends \Twig_Extension
 {
     private $urlGenerator;
     private $previewRenderer;
+    private $fileTypeExtensions;
 
-    public function __construct(UrlGenerator $urlGenerator, PreviewRenderer $previewRenderer)
+    public function __construct(UrlGenerator $urlGenerator, PreviewRenderer $previewRenderer, array $fileTypeExtensions)
     {
         $this->urlGenerator = $urlGenerator;
         $this->previewRenderer = $previewRenderer;
+        $this->fileTypeExtensions = $fileTypeExtensions;
     }
 
     public function getFunctions()
@@ -26,8 +28,43 @@ class FloppyExtension extends \Twig_Extension
         );
     }
 
-    public function getUrl(FileId $fileId, $type, array $credentials = array())
+    public function getUrl(FileId $fileId)
     {
+        $argsCount = func_num_args();
+        $args = func_get_args();
+        array_shift($args);
+
+        $type = null;
+        $credentials = array();
+
+        if($argsCount === 2 && is_array($args[0])) {
+            $fileId = $fileId->variant($args[0]);
+            $type = $this->guessType($fileId);
+        } else if($argsCount === 2 && is_string($args[0])) {
+            $type = $args[0];
+        } else if($argsCount === 3 && is_array($args[0]) && is_array($args[1])) {
+            $fileId = $fileId->variant($args[0]);
+            $credentials = $args[1];
+            $type = $this->guessType($fileId);
+        } else if($argsCount === 3 && is_array($args[0]) && is_string($args[1])) {
+            $fileId = $fileId->variant($args[0]);
+            $type = $args[1];
+        } else if($argsCount === 3 && is_string($args[0]) && is_array($args[1])) {
+            $type = $args[0];
+            $credentials = $args[1];
+        } else if($argsCount === 4 && is_array($args[0]) && is_string($args[1]) && is_array($args[2])) {
+            $fileId = $fileId->variant($args[0]);
+            $type = $args[1];
+            $credentials = $args[2];
+        } else {
+            $givenArgTypes = array();
+            foreach($args as $arg) {
+                $givenArgTypes[] = gettype($arg);
+            }
+            throw new \InvalidArgumentException(sprintf('floppy_url accepts those argument types: (FileId $fileId, array $fileAttrs), (FileId $fileId, string $fileType), (FileId $fileId, array $fileAttrs, array $credentials), (FileId $fileId, array $fileAttrs, string $fileType), (FIleId $fileId, string $fileType, array $credentials) or (FileId $fileId, array $fileAttrs, string $type, array $credentials), but (FileId, %s) given', implode(', ', $givenArgTypes)));
+        }
+
+
         return $this->urlGenerator->generate($fileId, $type, $credentials);
     }
 
@@ -39,5 +76,18 @@ class FloppyExtension extends \Twig_Extension
     public function getName()
     {
         return 'floppy';
+    }
+
+    private function guessType(FileId $fileId)
+    {
+        $extension = strtolower(\pathinfo($fileId->id(), PATHINFO_EXTENSION));
+
+        foreach($this->fileTypeExtensions as $fileType => $extensions) {
+            if(in_array($extension, $extensions)) {
+                return $fileType;
+            }
+        }
+
+        return 'file';
     }
 }
