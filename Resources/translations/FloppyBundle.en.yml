@@ -1,0 +1,15 @@
+error:
+  unsupported_file_type: Given file has unsupported type
+  file_not_found: File not found
+  server_error: Error occurred, try again later
+  access_denied: You have no permission to perform this action
+  bad_request: Given file is invalid
+  validation:
+    invalid_file_type: "Invalid file type, given \"%current_file_type%\", allowed %allowed_file_types%"
+
+form:
+  file:
+    delete: delete
+    download: Download file
+    upload: upload
+    replace: replace

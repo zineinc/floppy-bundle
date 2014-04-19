@@ -17,13 +17,13 @@
         {% endif %}
         <input type="hidden" id="{{ id }}-attributes" value="{% if data and data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
 
-        <button id="floppy-file-button-{{ id }}" class="primary">{{ "upload"|trans }}</button>
+        <button id="floppy-file-button-{{ id }}" class="primary" data-text-upload="{{ "form.file.upload"|trans({}, "FloppyBundle")|e("html_attr") }}" data-text-replace="{{ "form.file.replace"|trans({}, "FloppyBundle")|e("html_attr") }}">{% if data and data.id %}{{ "form.file.replace"|trans({}, "FloppyBundle") }}{% else %}{{ "form.file.upload"|trans({}, "FloppyBundle") }}{% endif %}</button>
         <div id="floppy-uploading-file-{{id}}" class="floppy-uploading">
             <div class="js-name"></div>
             <div class="floppy-file-progress-holder">
                 <div class="js-bar bar"></div>
             </div>
-            <span class="js-stop stop">{{ "x"|trans }}</span>
+            <span class="js-stop stop">x</span>
         </div>
     </div>
 
@@ -41,6 +41,7 @@
             }
 
             var uploadingFileBox = $("#floppy-uploading-file-{{id}}");
+            var uploadFileButton = $("#floppy-file-button-{{ id }}");
             var idInput = $("#{{ id }}-id");
             var attributesInput = $("#{{ id }}-attributes");
             var preview = $("#floppy-preview-{{ id }}");
@@ -48,13 +49,12 @@
             var errorBox = box.find(".error-message");
 
             var errorMessages = {
-                "unsupported-file-type": "{{ "storage.file.error.unsupported_file_type" }}",
-                "file-not-found": "{{ "storage.file.error.file_not_found" }}",
-                "store-error": "{{ "storage.file.error.store_error" }}",
-                "io": "{{ "storage.file.error.io" }}",
-                "file-process-error": "{{ "storage.file.error.file_process_error" }}",
-                "invalid-checksum": "{{ "storage.file.error.invalid_checksum" }}",
-                "access-denied": "{{ "storage.file.error.access_denied" }}"
+                "unsupported-file-type": "{{ "error.unsupported_file_type"|trans({}, "FloppyBundle")|e("js") }}",
+                "file-not-found": "{{ "error.file_not_found"|trans({}, "FloppyBundle")|e("js") }}",
+                "server-error": "{{ "error.server_error"|trans({}, "FloppyBundle")|e("js") }}",
+                "access-denied": "{{ "error.access_denied"|trans({}, "FloppyBundle")|e("js") }}",
+                "bad-request": "{{ "error.bad_request"|trans({}, "FloppyBundle")|e("js") }}",
+                "Invalid file type, given \"%current_file_type%\", allowed %allowed_file_types%": "{{ "error.validation.invalid_file_type"|trans({}, "FloppyBundle")|e("js") }}"
             };
 
             var pluploader;
@@ -76,7 +76,8 @@
                 errorBox: errorBox,
                 attributesInput: attributesInput,
                 idInput: idInput,
-                uploadingFileBox: uploadingFileBox
+                uploadingFileBox: uploadingFileBox,
+                uploadFileButton: uploadFileButton
             });
 
             var controller = new FloppyFileFormType.Controller({

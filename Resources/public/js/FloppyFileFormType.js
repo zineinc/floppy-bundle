@@ -153,6 +153,7 @@ $(function($){
             this._attributesInput = assertNotEmpty(options, "attributesInput");
             this._idInput = assertNotEmpty(options, "idInput");
             this._uploadingFileBox = assertNotEmpty(options, "uploadingFileBox");
+            this._uploadFileButton = assertNotEmpty(options, "uploadFileButton");
 
             this._uploadingFileView = new UploadingFileView({ eventBus: this._eventBus, box: this._uploadingFileBox });
 
@@ -167,6 +168,7 @@ $(function($){
             this._previewBox.html("");
             this._errorBox.text("");
             this._uploadingFileView.clear();
+            this._uploadFileButton.text(this._uploadFileButton.data("text-upload"));
         },
         progressUpdate: function(progress){
             this._uploadingFileView.progressUpdate(progress);
@@ -178,6 +180,7 @@ $(function($){
         showPreview: function(response){
             this._uploadingFileView.clear();
             this._previewBox.html(response);
+            this._uploadFileButton.text(this._uploadFileButton.data("text-replace"));
         },
         setAttributes: function(attributes){
             this._attributesInput.val(JSON.stringify(attributes));

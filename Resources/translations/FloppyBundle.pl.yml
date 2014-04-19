@@ -1,0 +1,15 @@
+error:
+  unsupported_file_type: Podany plik ma nieobsługiwany typ
+  file_not_found: Nie znaleziono pliku
+  server_error: Błąd, spróbuj ponownie później
+  access_denied: Nie masz uprawnień do wykonania tej akcji
+  bad_request: Podany plik jest niepoprawny
+  validation:
+    invalid_file_type: "Zły typ pliku, otrzymano \"%current_file_type%\", poprawne typy to: %allowed_file_types%"
+
+form:
+  file:
+    delete: usuń plik
+    download: Pobierz plik
+    upload: prześlij plik
+    replace: zamień plik
