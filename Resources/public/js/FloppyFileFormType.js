@@ -242,6 +242,9 @@ $(function($){
                 response = JSON.parse(response);
             }
             var error = this._errorMessages[response.message] ? this._errorMessages[response.message] : response.message;
+            for(var name in response.messageParameters) {
+                error = error.replace(name, response.messageParameters[name]);
+            }
             this._view.showError(error);
         },
         onSuccess: function(response){
