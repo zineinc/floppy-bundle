@@ -75,7 +75,7 @@ class FileDataTransformer implements DataTransformerInterface
                 throw new TransformationFailedException(sprintf('Value for id key "%s" of attributes should be the same as id "%s"', $attrs['id'], $id));
             }
 
-            return new FileId($id, $attrs);
+            return new FileId($id, array(), null, $attrs);
         } elseif(is_string($value)) {
             return new FileId($value);
         }

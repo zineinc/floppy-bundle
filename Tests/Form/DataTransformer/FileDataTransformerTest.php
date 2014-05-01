@@ -89,7 +89,7 @@ class FileDataTransformerTest extends \PHPUnit_Framework_TestCase
         $attrs = array('name' => 'value', 'id' => 'someid', 'checksum' => 'abc');
         return array(
             array('id', new FileId('id')),
-            array(array('id' => 'someid', 'attributes' => json_encode($attrs)), new FileId('someid', $attrs)),
+            array(array('id' => 'someid', 'attributes' => json_encode($attrs)), new FileId('someid', array(), null, $attrs)),
             //checksum is required
             array(array('id' => 'someid', 'attributes' => json_encode(array('checksum' => null) + $attrs)), null, true, true),
             //attributes.id === id
