@@ -22,6 +22,7 @@
             <argument type="service" id="floppy.endpoint" />
             <argument type="service" id="floppy.host_resolver" />
             <argument type="service" id="floppy.url_generator.credentials_generator" />
+            <argument type="service" id="floppy.file_type_guesser" />
         </service>
 
         <service id="floppy.credentials_generator" class="Floppy\Client\Security\PolicyGenerator" public="false">
@@ -55,6 +56,10 @@
         </service>
 
         <service id="floppy.host_resolver" class="Floppy\Client\EmptyHostResolver" public="false" />
+
+        <service id="floppy.file_type_guesser" class="Floppy\Client\FileTypeGuesser" public="false">
+            <argument>%floppy.file_type_extensions%</argument>
+        </service>
     </services>
 
 </container>

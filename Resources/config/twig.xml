@@ -8,9 +8,7 @@
         <service id="floppy.twig.extension" class="Floppy\Bundle\Twig\Extensions\FloppyExtension">
             <argument type="service" id="floppy.url_generator" />
             <argument type="service" id="floppy.view.preview" />
-            <argument type="collection">
-                <argument key="image">%floppy.form.preview.image.supported_extensions%</argument>
-            </argument>
+
             <tag name="twig.extension" />
         </service>
     </services>

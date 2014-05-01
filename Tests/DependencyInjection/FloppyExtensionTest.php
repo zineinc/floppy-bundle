@@ -80,12 +80,16 @@ class FloppyExtensionTest extends \PHPUnit_Framework_TestCase
     {
         //given
 
+        $imageExtensions = array('jpg');
         $config = array(
             'endpoint' => array(
                 'host' => 'localhost',
                 'protocol' => 'xxx',
             ),
             'secret_key' => 'abcd',
+            'file_type_extensions' => array(
+                'image' => $imageExtensions,
+            )
         );
         $container = new ContainerBuilder();
 
@@ -98,6 +102,14 @@ class FloppyExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($config['endpoint']['host'], $container->getParameter('floppy.endpoint.host'));
         $this->assertEquals($config['endpoint']['protocol'], $container->getParameter('floppy.endpoint.protocol'));
         $this->assertEquals($config['secret_key'], $container->getParameter('floppy.secret_key'));
+
+        $fileTypeExtensions = $container->getParameter('floppy.file_type_extensions');
+        $this->assertEquals($imageExtensions, $fileTypeExtensions['image']);
+
+        $fileTypeAliases = $container->getParameter('floppy.form.file_type_aliases');
+        $this->assertEquals($imageExtensions, $fileTypeAliases['image']['extensions']);
+
+        $this->assertEquals($imageExtensions, $container->getParameter('floppy.form.preview.image.supported_extensions'));
     }
 }
  

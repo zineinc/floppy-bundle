@@ -11,13 +11,11 @@ class FloppyExtension extends \Twig_Extension
 {
     private $urlGenerator;
     private $previewRenderer;
-    private $fileTypeExtensions;
 
-    public function __construct(UrlGenerator $urlGenerator, PreviewRenderer $previewRenderer, array $fileTypeExtensions)
+    public function __construct(UrlGenerator $urlGenerator, PreviewRenderer $previewRenderer)
     {
         $this->urlGenerator = $urlGenerator;
         $this->previewRenderer = $previewRenderer;
-        $this->fileTypeExtensions = $fileTypeExtensions;
     }
 
     public function getFunctions()
@@ -39,13 +37,11 @@ class FloppyExtension extends \Twig_Extension
 
         if($argsCount === 2 && is_array($args[0])) {
             $fileId = $fileId->variant($args[0]);
-            $type = $this->guessType($fileId);
         } else if($argsCount === 2 && is_string($args[0])) {
             $type = $args[0];
         } else if($argsCount === 3 && is_array($args[0]) && is_array($args[1])) {
             $fileId = $fileId->variant($args[0]);
             $credentials = $args[1];
-            $type = $this->guessType($fileId);
         } else if($argsCount === 3 && is_array($args[0]) && is_string($args[1])) {
             $fileId = $fileId->variant($args[0]);
             $type = $args[1];
@@ -76,18 +72,5 @@ class FloppyExtension extends \Twig_Extension
     public function getName()
     {
         return 'floppy';
-    }
-
-    private function guessType(FileId $fileId)
-    {
-        $extension = strtolower(\pathinfo($fileId->id(), PATHINFO_EXTENSION));
-
-        foreach($this->fileTypeExtensions as $fileType => $extensions) {
-            if(in_array($extension, $extensions)) {
-                return $fileType;
-            }
-        }
-
-        return 'file';
     }
 }

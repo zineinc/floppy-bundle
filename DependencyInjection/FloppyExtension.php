@@ -23,7 +23,7 @@ class FloppyExtension extends Extension
     {
         $configuration = new Configuration();
 
-        $config = $this->processConfiguration($configuration, $config);
+        $config = $this->applyDefaultValues($this->processConfiguration($configuration, $config));
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
@@ -35,10 +35,25 @@ class FloppyExtension extends Extension
         $this->setContainerParameters($container, $config, 'floppy');
     }
 
+    private function applyDefaultValues(array $config)
+    {
+        $imageExtensions = isset($config['file_type_extensions']['image']) ? $config['file_type_extensions']['image'] : array();
+
+        if(isset($config['form']['preview']['image']['supported_extensions']) && !$config['form']['preview']['image']['supported_extensions']) {
+            $config['form']['preview']['image']['supported_extensions'] = $imageExtensions;
+        }
+
+        if(isset($config['form']['file_type_aliases']['image']['extensions']) && !$config['form']['file_type_aliases']['image']['extensions']) {
+            $config['form']['file_type_aliases']['image']['extensions'] = $imageExtensions;
+        }
+
+        return $config;
+    }
+
     private function setContainerParameters(ContainerBuilder $container, array $config, $rootPath)
     {
         foreach($config as $name => $value) {
-            if($name !== 'file_type_aliases' && is_array($value) && $this->isAssociativeArray($value)) {
+            if(!in_array($name, array('file_type_aliases', 'file_type_extensions')) && is_array($value) && $this->isAssociativeArray($value)) {
                 $this->setContainerParameters($container, $value, $rootPath.'.'.$name);
             } else {
                 $container->setParameter($rootPath.'.'.$name, $value);

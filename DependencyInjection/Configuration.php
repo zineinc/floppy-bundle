@@ -66,6 +66,11 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('floppy_file')
                     ->cannotBeEmpty()
                 ->end()
+                ->variableNode('file_type_extensions')
+                    ->defaultValue(array(
+                        'image' => array('jpg', 'jpeg', 'png', 'gif')
+                    ))
+                ->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -73,7 +78,7 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue(array(
                                 'image' => array(
                                     'name' => 'Images',
-                                    'extensions' => array('jpg', 'jpeg', 'png', 'gif')
+                                    'extensions' => array(),
                                 ),
                             ))
                             ->useAttributeAsKey('alias', true)
@@ -115,7 +120,7 @@ class Configuration implements ConfigurationInterface
                                             ->defaultValue(80)
                                         ->end()
                                         ->variableNode('supported_extensions')
-                                            ->defaultValue(array('jpg', 'jpeg', 'png', 'gif'))
+                                            ->defaultValue(array())
                                         ->end()
                                     ->end()
                                 ->end()
