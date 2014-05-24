@@ -53,7 +53,7 @@
 }
 
 .floppy-file-box .button-holder {
-    float: left;
+    display: inline-block;
 }
 
 /* Progress bar*/
