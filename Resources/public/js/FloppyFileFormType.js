@@ -242,7 +242,7 @@ $(function($){
         },
         onError: function(response){
             if(typeof(response) !== "object") {
-                response = JSON.parse(response);
+                response = Utils.parseJson(response);
             }
             var error = this._errorMessages[response.message] ? this._errorMessages[response.message] : response.message;
             for(var name in response.messageParameters) {
@@ -251,7 +251,7 @@ $(function($){
             this._view.showError(error);
         },
         onSuccess: function(response){
-            var parsedResponse = JSON.parse(response);
+            var parsedResponse = Utils.parseJson(response);
 
             this._view.setAttributes(parsedResponse.attributes);
             var that = this;
@@ -276,11 +276,23 @@ $(function($){
         };
     };
 
+    var Utils = {
+        parseJson: function(text){
+            return JSON.parse(Utils.fixSerializedJson(text));
+        },
+        //serialized json can be wrapped by <pre> html tags when json is response of request sent by form
+        //so trim this tags. This situation occurs when html4 runtime is used in plupload.
+        fixSerializedJson: function(text){
+            return text.replace(/^\s*<pre[^>]*>/, '').replace(/<\/pre>\s*$/, '');
+        }
+    };
+
     window.FloppyFileFormType = {
         View: View,
         UploadingFileView: UploadingFileView,
         Controller: Controller,
         EventBus: EventBus,
-        File: File
+        File: File,
+        Utils: Utils
     };
 }(window.jQuery));

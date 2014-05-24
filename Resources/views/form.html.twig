@@ -17,7 +17,9 @@
         {% endif %}
         <input type="hidden" id="{{ id }}-attributes" value="{% if data and data.attributes.all %}{{ data.attributes.all|json_encode }}{% endif %}" name="{{ full_name }}[attributes]" />
 
-        <button id="floppy-file-button-{{ id }}" class="primary" data-text-upload="{{ "form.file.upload"|trans({}, "FloppyBundle")|e("html_attr") }}" data-text-replace="{{ "form.file.replace"|trans({}, "FloppyBundle")|e("html_attr") }}">{% if data and data.id %}{{ "form.file.replace"|trans({}, "FloppyBundle") }}{% else %}{{ "form.file.upload"|trans({}, "FloppyBundle") }}{% endif %}</button>
+        <div class="button-holder">
+            <button id="floppy-file-button-{{ id }}" class="primary" data-text-upload="{{ "form.file.upload"|trans({}, "FloppyBundle")|e("html_attr") }}" data-text-replace="{{ "form.file.replace"|trans({}, "FloppyBundle")|e("html_attr") }}">{% if data and data.id %}{{ "form.file.replace"|trans({}, "FloppyBundle") }}{% else %}{{ "form.file.upload"|trans({}, "FloppyBundle") }}{% endif %}</button>
+        </div>
         <div id="floppy-uploading-file-{{id}}" class="floppy-uploading">
             <div class="js-name"></div>
             <div class="floppy-file-progress-holder">
@@ -90,10 +92,10 @@
 
             pluploader = new plupload.Uploader({
                 runtimes: '{{ transport_types|join(",")|e("js") }}',
-                flash_swf_url : '{{ swf }}',
-                silverlight_xap_url : '{{ xap }}',
+                flash_swf_url : '{{ swf|replace({ "%request_base_path%": app.request.basePath }) }}',
+                silverlight_xap_url : '{{ xap|replace({ "%request_base_path%": app.request.basePath }) }}',
                 browse_button: 'floppy-file-button-{{ id }}',
-                container: 'floppy-file-box{{ id }}',
+                {#container: 'floppy-file-box{{ id }}',#}
                 multi_selection: false,
                 url: '{{ url }}',
                 file_data_name: '{{ file_key }}',

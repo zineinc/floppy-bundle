@@ -52,6 +52,10 @@
 	margin-bottom: 7px;
 }
 
+.floppy-file-box .button-holder {
+    float: left;
+}
+
 /* Progress bar*/
 .floppy-file-box .floppy-uploading {
 	margin-top: 10px;
