@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "floppy/client": "*",
+        "floppy/client": "dev-master",
         "symfony/form": "~2.1",
         "symfony/framework-bundle": "~2.1",
         "doctrine/doctrine-bundle": "*",
