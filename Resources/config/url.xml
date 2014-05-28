@@ -25,7 +25,7 @@
             <argument type="service" id="floppy.file_type_guesser" />
         </service>
 
-        <service id="floppy.credentials_generator" class="Floppy\Client\Security\PolicyGenerator" public="false">
+        <service id="floppy.credentials_generator" class="Floppy\Client\Security\PolicyGenerator">
             <argument type="service" id="floppy.checksum_checker" />
         </service>
 
@@ -57,7 +57,7 @@
 
         <service id="floppy.host_resolver" class="Floppy\Client\EmptyHostResolver" public="false" />
 
-        <service id="floppy.file_type_guesser" class="Floppy\Client\FileTypeGuesser" public="false">
+        <service id="floppy.file_type_guesser" class="Floppy\Client\FileTypeGuesser">
             <argument>%floppy.file_type_extensions%</argument>
         </service>
     </services>
