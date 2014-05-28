@@ -1,4 +1,4 @@
-error:
+errors:
   unsupported_file_type: Given file has unsupported type
   file_not_found: File not found
   server_error: Error occurred, try again later
