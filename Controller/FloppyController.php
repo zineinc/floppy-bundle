@@ -19,7 +19,7 @@ class FloppyController extends Controller
     public function previewAction(Request $request)
     {
         return array(
-            'fileId' => new FileId($request->query->get('fileId')),
+            'fileId' => new FileId($request->query->get('fileId'), array(), null, (array) $request->query->get('info')),
         );
     }
 } 

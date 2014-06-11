@@ -1,2 +1,2 @@
-<a href="{{ floppy_url(fileId, "file", { "granted": true }) }}">{{ "form.file.download"|trans({}, "FloppyBundle") }}</a>
+<a href="{{ floppy_url(fileId, "file", { "granted": true }|merge(fileId.info.all) ) }}">{{ "form.file.download"|trans({}, "FloppyBundle") }}</a>
 <button class="js-delete delete">{{ "form.file.delete"|trans({}, "FloppyBundle") }}</button>

@@ -256,7 +256,7 @@ $(function($){
             this._view.setAttributes(parsedResponse.attributes);
             var that = this;
 
-            $.get(this._previewUrl, { fileId: parsedResponse.attributes.id }, function(response){
+            $.get(this._previewUrl, { fileId: parsedResponse.attributes.id, info: parsedResponse.attributes.extra_info }, function(response){
                 that._view.showPreview(response);
             });
         },
