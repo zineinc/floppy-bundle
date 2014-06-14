@@ -111,5 +111,57 @@ class FloppyExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($imageExtensions, $container->getParameter('floppy.form.preview.image.supported_extensions'));
     }
+
+    /**
+     * @test
+     */
+    public function configureDefaultCredentials()
+    {
+        //given
+
+        $config = $this->validConfig();
+
+        $config['default_credentials'] = array(
+            'upload' => array(
+                'expiration' => 123,
+            ),
+            'download' => array(
+                'expiration' => 321,
+            ),
+        );
+
+        $container = new ContainerBuilder();
+
+        //when
+
+        $this->extension->load(array($config), $container);
+
+        //then
+
+        $this->assertEquals($config['default_credentials']['upload'], $container->getParameter('floppy.default_credentials.upload'));
+        $this->assertEquals($config['default_credentials']['download'], $container->getParameter('floppy.default_credentials.download'));
+
+        foreach(array('floppy.credentials_generator', 'floppy.url_generator.credentials_generator') as $id) {
+            $credentialsGenerator = $container->get($id);
+            $credentials = $credentialsGenerator->generateCredentials();
+
+            $this->assertNotEmpty($credentials);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    private function validConfig()
+    {
+        $config = array(
+            'endpoint' => array(
+                'host' => 'localhost',
+                'protocol' => 'xxx',
+            ),
+            'secret_key' => 'abcd',
+        );
+        return $config;
+    }
 }
  

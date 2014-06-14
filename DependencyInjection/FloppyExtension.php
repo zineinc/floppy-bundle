@@ -53,7 +53,7 @@ class FloppyExtension extends Extension
     private function setContainerParameters(ContainerBuilder $container, array $config, $rootPath)
     {
         foreach($config as $name => $value) {
-            if(!in_array($name, array('file_type_aliases', 'file_type_extensions')) && is_array($value) && $this->isAssociativeArray($value)) {
+            if(!in_array($name, array('file_type_aliases', 'file_type_extensions', 'upload', 'download')) && is_array($value) && $this->isAssociativeArray($value)) {
                 $this->setContainerParameters($container, $value, $rootPath.'.'.$name);
             } else {
                 $container->setParameter($rootPath.'.'.$name, $value);

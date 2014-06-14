@@ -11,6 +11,8 @@
         <parameter key="floppy.filepath_chooser.chars_for_dir">3</parameter>
         <parameter key="floppy.filepath_chooser.orig_file_dir">orig</parameter>
         <parameter key="floppy.filepath_chooser.variant_file_dir">v</parameter>
+        <parameter key="floppy.default_credentials.upload"></parameter>
+        <parameter key="floppy.default_credentials.download"></parameter>
     </parameters>
 
     <services>
@@ -25,12 +27,22 @@
             <argument type="service" id="floppy.file_type_guesser" />
         </service>
 
-        <service id="floppy.credentials_generator" class="Floppy\Client\Security\PolicyGenerator">
+        <service id="floppy.credentials_generator" class="Floppy\Client\Security\DefaultCredentialsGenerator">
+            <argument type="service" id="floppy.credentials_generator.internal"/>
+            <argument>%floppy.default_credentials.upload%</argument>
+        </service>
+
+        <service id="floppy.credentials_generator.internal" class="Floppy\Client\Security\PolicyGenerator" public="false">
             <argument type="service" id="floppy.checksum_checker" />
         </service>
 
-        <service id="floppy.url_generator.credentials_generator" class="Floppy\Client\Security\IgnoreIdCredentialsGenerator" public="false">
-            <argument type="service" id="floppy.credentials_generator" />
+        <service id="floppy.url_generator.credentials_generator" class="Floppy\Client\Security\DefaultCredentialsGenerator" public="false">
+            <argument type="service">
+                <service class="Floppy\Client\Security\IgnoreIdCredentialsGenerator">
+                    <argument type="service" id="floppy.credentials_generator.internal" />
+                </service>
+            </argument>
+            <argument>%floppy.default_credentials.download%</argument>
         </service>
 
         <service id="floppy.path_generator.image" class="Floppy\Common\FileHandler\Base64PathGenerator" public="false">
