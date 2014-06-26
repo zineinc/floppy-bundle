@@ -35,29 +35,29 @@ class FloppyExtension extends \Twig_Extension
         $type = null;
         $credentials = array();
 
-        if($argsCount === 2 && is_array($args[0])) {
+        if ($argsCount === 2 && is_array($args[0])) {
             $fileId = $fileId->variant($args[0]);
-        } else if($argsCount === 2 && is_string($args[0])) {
+        } else if ($argsCount === 2 && is_string($args[0])) {
             $type = $args[0];
-        } else if($argsCount === 3 && is_array($args[0]) && is_array($args[1])) {
+        } else if ($argsCount === 3 && is_array($args[0]) && is_array($args[1])) {
             $fileId = $fileId->variant($args[0]);
             $credentials = $args[1];
-        } else if($argsCount === 3 && is_array($args[0]) && is_string($args[1])) {
+        } else if ($argsCount === 3 && is_array($args[0]) && is_string($args[1])) {
             $fileId = $fileId->variant($args[0]);
             $type = $args[1];
-        } else if($argsCount === 3 && is_string($args[0]) && is_array($args[1])) {
+        } else if ($argsCount === 3 && is_string($args[0]) && is_array($args[1])) {
             $type = $args[0];
             $credentials = $args[1];
-        } else if($argsCount === 4 && is_array($args[0]) && is_string($args[1]) && is_array($args[2])) {
+        } else if ($argsCount === 4 && is_array($args[0]) && is_string($args[1]) && is_array($args[2])) {
             $fileId = $fileId->variant($args[0]);
             $type = $args[1];
             $credentials = $args[2];
-        } else {
+        } else if($argsCount !== 1) {
             $givenArgTypes = array();
             foreach($args as $arg) {
                 $givenArgTypes[] = gettype($arg);
             }
-            throw new \InvalidArgumentException(sprintf('floppy_url accepts those argument types: (FileId $fileId, array $fileAttrs), (FileId $fileId, string $fileType), (FileId $fileId, array $fileAttrs, array $credentials), (FileId $fileId, array $fileAttrs, string $fileType), (FIleId $fileId, string $fileType, array $credentials) or (FileId $fileId, array $fileAttrs, string $type, array $credentials), but (FileId, %s) given', implode(', ', $givenArgTypes)));
+            throw new \InvalidArgumentException(sprintf('floppy_url accepts those argument types: (FileId $fileId), (FileId $fileId, array $fileAttrs), (FileId $fileId, string $fileType), (FileId $fileId, array $fileAttrs, array $credentials), (FileId $fileId, array $fileAttrs, string $fileType), (FileId $fileId, string $fileType, array $credentials) or (FileId $fileId, array $fileAttrs, string $type, array $credentials), but (FileId, %s) given', implode(', ', $givenArgTypes)));
         }
 
 
