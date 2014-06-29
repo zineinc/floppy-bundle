@@ -4,21 +4,22 @@
 namespace Floppy\Bundle\View;
 
 
+use Floppy\Bundle\UrlGenerator\FilterSetApplier;
 use Floppy\Common\FileId;
 
 class ImageAttributesProvider implements AttributesProvider
 {
-    private $width;
-    private $height;
+    private $filterSetApplier;
+    private $filterSet;
 
-    public function __construct($width, $height)
+    public function __construct(FilterSetApplier $filterSetApplier, $filterSet)
     {
-        $this->height = (int) $height;
-        $this->width = (int) $width;
+        $this->filterSetApplier = $filterSetApplier;
+        $this->filterSet = $filterSet;
     }
 
     public function getAttributes(FileId $fileId)
     {
-        return array('width' => $this->width, 'height' => $this->height);
+        return $this->filterSetApplier->applyFilterSet($fileId, $this->filterSet)->attributes()->all();
     }
 }

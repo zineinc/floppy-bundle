@@ -13,6 +13,7 @@
         <parameter key="floppy.filepath_chooser.variant_file_dir">v</parameter>
         <parameter key="floppy.default_credentials.upload"></parameter>
         <parameter key="floppy.default_credentials.download"></parameter>
+        <parameter key="floppy.filter_sets"></parameter>
     </parameters>
 
     <services>
@@ -76,6 +77,10 @@
 
         <service id="floppy.file_type_guesser" class="Floppy\Client\FileTypeGuesser">
             <argument>%floppy.file_type_extensions%</argument>
+        </service>
+
+        <service id="floppy.filterset_applier" class="Floppy\Bundle\UrlGenerator\DefaultFilterSetApplier">
+            <argument>%floppy.filter_sets%</argument>
         </service>
     </services>
 

@@ -37,6 +37,7 @@ app/AppKernel.php:
 
 ```
 
+<a name="config-yml"></a>
 3) Configure this bundle:
 
 ```yml
@@ -48,6 +49,13 @@ app/AppKernel.php:
             host: your-floppy-server-host.com
             path: /
         secret_key: your-super-secret-key-the-same-key-as-in-server
+        #similar syntax as in LiipImagineBundle / AvalancheImagineBundle
+        #the same filters and options available as in LiipImagineBundle
+        filter_sets:
+            some_thumbnail:
+                quality: 95
+                thumbnail:
+                    size: [50, 50]
 
     #add form theme for form fields defined by this bundle
     twig:
@@ -142,10 +150,16 @@ And that's all, next points explain how to use features of this bundle.
 ```twig
 
     {# document variable is object of Document class defined in step 3 #}
-    {{ floppy_url(document.fileId, { "name": "some name" }) }}
+    {{ floppy_url(document.fileId.with( { "name": "some name" })) }}
 
-    {# if you know the file is image you can render url to image with given sizes #}
-    {{ floppy_url(document.fileId, { "width": 200, "height": 300 }, "image") }}
+    {# if you know the file is image you can render url to thumbnail with given sizes #}
+    {{ floppy_url(document.fileId.with({ "thumbnail": { "size": [80, 80] } }), "image") }}
+    
+    {# you can use filter set defined in app/config/config.yml file in ["filter_sets" section](#config-yml) #}
+    {{ floppy_url(document.fileId|floppy_filter("some_thumbnail")}, "image") }}
+    
+    {# add custom options to filter set - for example add thumbnail mode #}
+    {{ floppy_url(document.fileId|floppy_filter("some_thumbnail", { "thumbnail": { "mode": "inset" } } )}, "image") }}
     
 ```
 
@@ -161,7 +175,7 @@ FloppyBundle adds additional 3 integration points:
 
 - form type: floppy_file
 - doctrine column type: floppy_file
-- twig function: floppy_url()
+- twig floppy_url() function and floppy_filter filter
 
 Form
 ----
@@ -306,16 +320,25 @@ Examples of floppy_url usage:
     {# url to original file #}
     {{ floppy_url(document.file) }}
     
-    {# url to thumbnail, assumption is the file is image #}
-    {{ floppy_url(document.file, { "width": 50, "height": 50 }) }}
+    {# url to thumbnail, we assume the file is image #}
+    {{ floppy_url(document.file.with({ "thumbnail": { "size": [50, 50] } })) }}
     {# as before, but file type is passed explicitly #}
-    {{ floppy_url(document.file, { "width": 50, "height": 50 }, "image") }}
+    {{ floppy_url(document.file.with({ "thumbnail": { "size": [50, 50] } }), "image") }}
     
-    {# add credentials to url, empty array {} in second argument is empty array of attributes #}
-    {{ floppy_url(document.file, {}, { "expiration": date().timestamp + 60 }) }}
+    {# add credentials to url #}
+    {{ floppy_url(document.file, { "expiration": date().timestamp + 60 }) }}
     
-    {# floppy_url with all arguments: file, attributes, file type and credentials #}
-    {{ floppy_url(document.file, { "name": "some name" }, "file", { "expiration": date().timestamp + 60 }) }}
+    {# floppy_url with all arguments: file, file type and credentials #}
+    {{ floppy_url(document.file.with({ "name": "some name" }), "file", { "expiration": date().timestamp + 60 }) }}
+    
+    {# if you want to use filter set definied in your app/config/config.yml file, you should use floppy_filter twig filter #}
+    {{ floppy_url(document.file|floppy_filter("some_thumbnail")) }}
+    
+    {# filter set + credentials #}
+    {{ floppy_url(document.file|floppy_filter("some_thumbnail"), { "expiration": date().timestamp + 60 }) }}
+    
+    {# filter set + custom options #}
+    {{ floppy_url(document.fileId|floppy_filter("some_thumbnail", { "thumbnail": { "mode": "inset" } } )}) }}
 
 ```
 
@@ -332,6 +355,14 @@ Only two options are required: floppy.endpoint.host and floppy.secret_key. There
             host: ~
             protocol: http
             path: ""
+            
+        filter_sets:
+            #default filter set for image preview in floppy_file form type. It is always automatically added even if you
+            #overwrite filter_sets
+            _preview:
+                quality: 95
+                thumbnail:
+                    size: [80, 80]
             
         #Required
         #secret key that is used as salt to generate checksums, this value should be the same as in FloppyServer
@@ -379,8 +410,8 @@ Only two options are required: floppy.endpoint.host and floppy.secret_key. There
             #configuration for file previews
             preview:
                 image:
-                    width: 80
-                    height: 80
+                    #filter set used to generate image preview in form
+                    filter_set: "_preview"
                     #by default as same as floppy.file_type_extensions.image
                     supported_extensions: [ "jpg", "jpeg", "png", "gif" ]
                 file:

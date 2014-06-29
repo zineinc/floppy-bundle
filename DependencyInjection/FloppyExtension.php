@@ -47,13 +47,24 @@ class FloppyExtension extends Extension
             $config['form']['file_type_aliases']['image']['extensions'] = $imageExtensions;
         }
 
+        $previewFilterSet = array(
+            '_preview' => array(
+                'quality' => 95,
+                'thumbnail' => array(
+                    'size' => array(80, 80),
+                ),
+            ),
+        );
+
+        $config['filter_sets'] = isset($config['filter_sets']) ? array_merge($previewFilterSet, $config['filter_sets']) : $previewFilterSet;
+
         return $config;
     }
 
     private function setContainerParameters(ContainerBuilder $container, array $config, $rootPath)
     {
         foreach($config as $name => $value) {
-            if(!in_array($name, array('file_type_aliases', 'file_type_extensions', 'upload', 'download')) && is_array($value) && $this->isAssociativeArray($value)) {
+            if(!in_array($name, array('file_type_aliases', 'file_type_extensions', 'upload', 'download', 'filter_sets')) && is_array($value) && $this->isAssociativeArray($value)) {
                 $this->setContainerParameters($container, $value, $rootPath.'.'.$name);
             } else {
                 $container->setParameter($rootPath.'.'.$name, $value);

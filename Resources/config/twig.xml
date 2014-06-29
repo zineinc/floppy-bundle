@@ -8,6 +8,7 @@
         <service id="floppy.twig.extension" class="Floppy\Bundle\Twig\Extensions\FloppyExtension">
             <argument type="service" id="floppy.url_generator" />
             <argument type="service" id="floppy.view.preview" />
+            <argument type="service" id="floppy.filterset_applier" />
 
             <tag name="twig.extension" />
         </service>

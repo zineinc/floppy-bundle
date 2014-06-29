@@ -5,8 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="floppy.form.preview.image.width"></parameter>
-        <parameter key="floppy.form.preview.image.height"></parameter>
+        <parameter key="floppy.form.preview.image.filter_set"></parameter>
         <parameter key="floppy.form.preview.image.supported_extensions"></parameter>
         <parameter key="floppy.form.preview.file.name"></parameter>
     </parameters>
@@ -27,8 +26,8 @@
         </service>
 
         <service id="floppy.view.preview.image_attrs_provider" class="Floppy\Bundle\View\ImageAttributesProvider" public="false">
-            <argument>%floppy.form.preview.image.width%</argument>
-            <argument>%floppy.form.preview.image.height%</argument>
+            <argument type="service" id="floppy.filterset_applier" />
+            <argument>%floppy.form.preview.image.filter_set%</argument>
         </service>
 
         <service id="floppy.view.preview.file" class="Floppy\Bundle\View\LazyLoadedPreviewRenderer" public="false">

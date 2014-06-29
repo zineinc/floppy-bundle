@@ -150,6 +150,39 @@ class FloppyExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function configureFilterSets()
+    {
+        //given
+
+        $config = $this->validConfig();
+
+        $config['filter_sets'] = array(
+            'some_filter' => array(
+                'quality' => 100,
+                'some' => array(
+                    'name' => 'value'
+                ),
+            ),
+        );
+
+        $container = new ContainerBuilder();
+
+        //when
+
+        $this->extension->load(array($config), $container);
+
+        //then
+
+        $parameter = $container->getParameter('floppy.filter_sets');
+        $this->assertTrue(isset($parameter['_preview']));
+        unset($parameter['_preview']);
+
+        $this->assertEquals($config['filter_sets'], $parameter);
+    }
+
+    /**
      * @return array
      */
     private function validConfig()
