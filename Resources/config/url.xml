@@ -48,7 +48,11 @@
 
         <service id="floppy.path_generator.image" class="Floppy\Common\FileHandler\Base64PathGenerator" public="false">
             <argument type="service" id="floppy.checksum_checker" />
-            <argument type="service" id="floppy.filepath_chooser" />
+            <argument type="service">
+                <service class="Floppy\Common\FileHandler\QueryStringFileInfoAssembler">
+                    <argument type="service" id="floppy.filepath_chooser" />
+                </service>
+            </argument>
         </service>
 
         <service id="floppy.checksum_checker" class="Floppy\Common\ChecksumCheckerImpl" public="false">
@@ -65,7 +69,11 @@
 
         <service id="floppy.path_generator.file" class="Floppy\Common\FileHandler\Base64PathGenerator" public="false">
             <argument type="service" id="floppy.checksum_checker" />
-            <argument type="service" id="floppy.filepath_chooser" />
+            <argument type="service">
+                <service class="Floppy\Common\FileHandler\FilenameFileInfoAssembler">
+                    <argument type="service" id="floppy.filepath_chooser" />
+                </service>
+            </argument>
             <argument type="collection">
                 <argument key="name" type="service">
                     <service class="Floppy\Client\UrlifyFilter" />

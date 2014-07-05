@@ -47,7 +47,7 @@ class FloppyExtension extends \Twig_Extension
         $credentials = array();
 
         if ($argsCount === 2 && is_array($args[0])) {
-            $credentials = $args[1];
+            $credentials = $args[0];
         } else if ($argsCount === 2 && is_string($args[0])) {
             $type = $args[0];
         } else if ($argsCount === 3 && is_string($args[0]) && is_array($args[1])) {
