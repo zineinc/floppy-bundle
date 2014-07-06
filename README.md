@@ -1,5 +1,7 @@
 # FloppyBundle
 
+[![Build Status](https://travis-ci.org/zineinc/floppy-bundle.svg?branch=master)](https://travis-ci.org/zineinc/floppy-bundle)
+
 FloppyBundle provides few additional integration points with [FloppyServer][2] library. Before reading this documentation, **you
 should read documentation** for [**FloppyServer**][2] and [**FloppyClient**][3] first.
 
