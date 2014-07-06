@@ -48,7 +48,7 @@ class FileDataTransformer implements DataTransformerInterface
 
         if(is_array($value) && array_key_exists('id', $value) && ($value['id'] === null || is_string($value['id']))) {
             $id = $value['id'];
-            $serializedAttrs = isset($value['attributes']) ? (string) $value['attributes'] : null;
+            $serializedAttrs = isset($value['attributes']) ? $this->castToString($value['attributes']) : null;
 
             $attrs = $serializedAttrs ? @json_decode($serializedAttrs, true) : array();
 
@@ -81,5 +81,10 @@ class FileDataTransformer implements DataTransformerInterface
         }
 
         throw new TransformationFailedException('Cannot transform value, unexpected value, expected string or array with "id" key, but '.self::type($value).' given');
+    }
+
+    private function castToString($value)
+    {
+        return is_array($value) ? 'Array' : (string) $value;
     }
 }
