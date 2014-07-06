@@ -1,11 +1,22 @@
-FloppyBundle
-============
+# FloppyBundle
 
 FloppyBundle provides few additional integration points with [FloppyServer][2] library. Before reading this documentation, **you
 should read documentation** for [**FloppyServer**][2] and [**FloppyClient**][3] first.
 
-Quick tour
-==========
+# Documentation
+
+## ToC
+
+* [Quick tour](#quick-tour)
+* [Integration points](#integration-points)
+    * [Form](#form)
+    * [Doctrine column type](#doctrine)
+    * [Twig](#twig)
+* [Configuration](#configuration)
+* [License](#license)
+
+<a name="quick-tour"></a>
+## Quick tour
 
 1) Configure your floppy server (shown in [floppy-server doc][4])
 
@@ -163,8 +174,8 @@ And that's all, next points explain how to use features of this bundle.
     
 ```
 
-Integration points
-==================
+<a name="integration-points"></a>
+## Integration points
 
 [FloppyClient][3] library adds two integration points with [FloppyServer][2]:
 
@@ -177,8 +188,8 @@ FloppyBundle adds additional 3 integration points:
 - doctrine column type: floppy_file
 - twig floppy_url() function and floppy_filter filter
 
-Form
-----
+<a name="form"></a>
+### Form
 
 **floppy_file** form type allows you to upload and assign file to your entity object. The form type uses [plupload][1] 
 library as javascript uploader by default. To set up floppy_file, you should include floppy styles (css file), jquery,
@@ -260,8 +271,8 @@ example html5 transport, next transport on the list will be used.
 expiration timestamp), file_types (allowed file types - it will be validated on server side), access (public/private, should file
 be stored in public or in private storage). More about credentials you can find in FloppyServer and FloppyClient docs.
 
-Doctrine column type
---------------------
+<a name="doctrine"></a>
+### Doctrine column type
 
 **floppy_file** column type simplify dealing with files in your entities. File in entity is represented by 
 **Floppy\Common\FileId** object. The most interesting properties of FileId are:
@@ -307,8 +318,8 @@ Example:
 
 ```
 
-Twig
-----
+<a name="twig"></a>
+### Twig
 
 After upload file (thanks to floppy_file form type) and store it in your entity (thanks to floppy_file doctrine column 
 type) you may want to display url to the file. **floppy_url** twig function is able to generate url to the file.
@@ -342,8 +353,8 @@ Examples of floppy_url usage:
 
 ```
 
-Configuration
-=============
+<a name="configuration"></a>
+## Configuration
 
 Only two options are required: floppy.endpoint.host and floppy.secret_key. There is a list of all configuration options:
 
@@ -419,8 +430,8 @@ Only two options are required: floppy.endpoint.host and floppy.secret_key. There
 
 ```
 
-License
-=======
+<a name="license"></a>
+## License
 
 This project is under **MIT** license.
 
