@@ -5,6 +5,10 @@
 FloppyBundle provides few additional integration points with [FloppyServer][2] library. Before reading this documentation, **you
 should read documentation** for [**FloppyServer**][2] and [**FloppyClient**][3] first.
 
+The main goal of Floppy-family libraries is to make dealing with every aspect of files as easy as possible. Floppy-family
+libraries improve dealing with: file uploading, file storing, generating various file versions (thumbnails, watermarks etc.),
+representing files in Entities and more.
+
 # Documentation
 
 ## ToC
