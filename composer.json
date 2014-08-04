@@ -1,5 +1,6 @@
 {
     "name": "floppy/bundle",
+    "type": "library",
     "description": "Floppy is a file storage library. This library adds fine support to use FloppyServer instance to Symfony2 apps.",
     "keywords": ["filesystem", "file", "file storage", "file upload", "image", "floppy"],
     "license": "MIT",
