@@ -236,6 +236,7 @@ $(function($){
             this._view.clear();
             this._view.setFile(file);
             this._uploader.start();
+            this._eventBus.trigger("file:added", file);
         },
         onProgress: function(progress){
             this._view.progressUpdate(progress);
@@ -248,12 +249,16 @@ $(function($){
             for(var name in response.messageParameters) {
                 error = error.replace(name, response.messageParameters[name]);
             }
+
+            this._eventBus.trigger("file:uploadError", error);
             this._view.showError(error);
         },
         onSuccess: function(response){
             var parsedResponse = Utils.parseJson(response);
 
+            this._eventBus.trigger("file:uploaded", parsedResponse.attributes);
             this._view.setAttributes(parsedResponse.attributes);
+
             var that = this;
 
             $.get(this._previewUrl, { fileId: parsedResponse.attributes.id, info: parsedResponse.attributes.extra_info }, function(response){
