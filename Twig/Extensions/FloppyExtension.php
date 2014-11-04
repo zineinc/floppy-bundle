@@ -25,7 +25,7 @@ class FloppyExtension extends \Twig_Extension
     {
 
         return array(
-            new \Twig_SimpleFunction('floppy_url', array($this, 'getUrl')),
+            new \Twig_SimpleFunction('floppy_url', array($this, 'getUrl'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('floppy_file_preview', array($this, 'renderPreview'), array('needs_environment' => true, 'is_safe' => array('html'))),
         );
     }
